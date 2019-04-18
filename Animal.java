@@ -16,10 +16,7 @@ abstract public class Animal extends Object{
      * @return a boolean value depend on whether it's dead or not
      */
     public boolean dead() {
-        if (health <= 0) {
-            return true;
-        }
-        return false;
+        return health <= 0;
     }
     
     public boolean getTired() {
@@ -50,5 +47,24 @@ abstract public class Animal extends Object{
         this.cooldown = c;
     }
     
+    /**
+     * Moves an object at (a,b) to (x,y)
+     * @param map a 2d array holding the world map
+     * @param a the x coord of the object
+     * @param b the y coord of the object
+     * @param x the x coord of the destination
+     * @param y the y coord of the destination
+     */
+    public void move(Object[][] map, int a, int b, int x, int y) {
+        map[x][y] = map[a][b];
+        map[a][b] = null;
+    }
+    
+    /**
+     * Methods which handles random movement, eating and breeding
+     * @param map 2d array map of the world
+     * @param a a x coordinate
+     * @param b a y coordinate
+     */
     abstract public void moveRandom(Object[][] map, int a, int b);
 }
