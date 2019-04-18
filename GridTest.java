@@ -18,7 +18,7 @@ class GridTest {
     
     //Set up Grid Panel
     DisplayGrid grid = new DisplayGrid(map);
-    
+      System.out.println("Event log:");
     while(true) {
     //Display the grid on a Panel
     grid.refresh();
@@ -57,6 +57,7 @@ class GridTest {
           for (int j = 0; j < SIZE; j++) {
               if (map[i][j] instanceof Animal && !((Animal)map[i][j]).getTired()) {
                   if(((Animal)map[i][j]).dead()) {
+                      System.out.println("Animal died!");
                       map[i][j] = null;
                   } else {
                       ((Animal)map[i][j]).setTired(true);

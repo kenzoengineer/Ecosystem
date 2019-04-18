@@ -5,6 +5,7 @@ abstract public class Animal extends Object{
     private int cooldown;
     //if already moved this turn
     private boolean tired;
+    
     public Animal(int h) {
         this.health = h;
         this.cooldown = 2;
@@ -59,6 +60,8 @@ abstract public class Animal extends Object{
         map[x][y] = map[a][b];
         map[a][b] = null;
     }
+    
+    abstract public void eat(Object[][] map, int a, int b, int c, int d);
     
     /**
      * Methods which handles random movement, eating and breeding
