@@ -48,6 +48,22 @@ abstract public class Animal extends Object{
         this.cooldown = c;
     }
     
+    public int[] findEmpty(Object[][] map) {
+        int[] arr = new int[2]; 
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map.length; j++) {
+                if (map[i][j] == null) {
+                    arr[0] = i;
+                    arr[1] = j;
+                    return arr;
+                }
+            }
+        }
+        arr[0] = -1;
+        arr[1] = -1;
+        return arr;
+    }
+    
     /**
      * Moves an object at (a,b) to (x,y)
      * @param map a 2d array holding the world map
