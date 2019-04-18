@@ -1,0 +1,7 @@
+public class Grass extends Living {
+    int seed;
+    
+    public Grass(int a) {
+        super(a);
+    }
+}

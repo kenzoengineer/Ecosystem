@@ -1,0 +1,10 @@
+abstract public class Animal {
+    //animal health
+    private int health;
+    //reproduction cooldown time
+    private int cooldown;
+    
+    public Animal(int h) {
+        this.health = h;
+    }
+}
