@@ -28,6 +28,7 @@ public class Sheep extends Animal {
         }
     }
         
+    @Override
     public void moveRandom(Object[][] map, int a, int b) {
         int rand = (int) (Math.random() * 4);
         if (rand == 0) {
