@@ -1,6 +1,6 @@
 /* [GridTest.java]
  * A program to demonstrate usage of DisplayGrid.java.
- * @author Mangat
+ * @author Ken Jiang
  */
 
 class GridTest { 
