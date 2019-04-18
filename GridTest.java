@@ -3,10 +3,11 @@
  * @author Ken Jiang
  */
 
+
 class GridTest { 
-    public static final int ANIMAL_NUMBER = 100;
+    public static final int ANIMAL_NUMBER = 20;
     public static final int SIZE = 25;
-    public static final int DELAY = 1;
+    public static final int DELAY = 100;
   
   public static void main(String[] args) { 
     Object map[][] = new Object[SIZE][SIZE];
