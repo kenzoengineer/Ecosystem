@@ -19,33 +19,31 @@ class GridTest {
 
         //Set up Grid Panel
         DisplayGrid grid = new DisplayGrid(map);
-          System.out.println("Event log:");
+            System.out.println("Event log:");
         while(true) {
-        //Display the grid on a Panel
-        if(stable(map)) {
-            turn++;
-        } else {
-            System.out.println("Turn : " + turn);
-            resetGame(map);
-            setupGame(map);
-            turn = 0;
-        }
-        grid.refresh();
+            //Display the grid on a Panel
+            if(stable(map)) {
+                turn++;
+            } else {
+                System.out.println("Turn : " + turn);
+                resetGame(map);
+                setupGame(map);
+                turn = 0;
+            }
+            grid.refresh();
 
+            //Small delay
+            try {
+                Thread.sleep(DELAY);
+            }catch(Exception e) {
+                e.printStackTrace();
+            };
 
-        //Small delay
-        try {
-            Thread.sleep(DELAY);
-        }catch(Exception e) {
-            e.printStackTrace();
-        };
-
-
-        // Initialize Map (Making changes to map)
-        moveItemsOnGrid(map);
-        moreGrass(map);
-        //Display the grid on a Panel
-        grid.refresh();
+            // Initialize Map (Making changes to map)
+            moveItemsOnGrid(map);
+            moreGrass(map);
+            //Display the grid on a Panel
+            grid.refresh();
         }
   }
   
@@ -134,15 +132,6 @@ class GridTest {
               }
           }
       }
-  }
-  
-  //method to display grid a text for debugging
-  public static void DisplayGridOnConsole(String[][] map) { 
-    for(int i = 0; i< SIZE;i++){        
-      for(int j = 0; j< SIZE;j++) 
-        System.out.print(map[i][j]+" ");
-      System.out.println("");
-    }
   }
   
   public static boolean stable(Object[][] map) {
