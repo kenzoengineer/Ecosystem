@@ -5,19 +5,20 @@
 
 
 class GridTest {
-    public static final int WOLF_NUMBER = 5;
+    public static final int WOLF_NUMBER = 70;
     public static final int SHEEP_NUMBER = 70;
     public static final int GRASS_NUMBER = 100;
     public static final int SIZE = 25;
-    public static final int DELAY = 100;
-  
+    public static final int DELAY = 50;
+    public static int wolfC = 0;
+    public static int sheepC = 0;
     public static void setupGame(Object[][] map) {
         int i = 0;
         while (i < WOLF_NUMBER) {
             int a = (int) (Math.random() * SIZE);
             int b = (int) (Math.random() * SIZE);
             if (map[a][b] == null) {
-                map[a][b] = new Wolf(20);
+                map[a][b] = new Wolf(30);
                 i++;
             }
         }
@@ -83,18 +84,19 @@ class GridTest {
         }
     }
   
-    public static void moreGrass(Object[][] map) {
-        int rand = (int)(Math.random() * 2);
-        if (rand == 0 && (Animal.findEmpty(map)[0] >= 0)) {
-            while (true) {
-                int rand1 = (int)(Math.random() * SIZE);
-                int rand2 = (int)(Math.random() * SIZE);
-                if (map[rand1][rand2] == null) {
-                    map[rand1][rand2] = new Grass(50);
-                    //System.out.println("Grass spawned");
-                    return;
+    public static void moreGrass(Object[][] map, int a) {
+        for (int i = 0; i < a; i++) {
+            if ((Animal.findEmpty(map)[0] >= 0)) {
+                while (true) {
+                    int rand1 = (int)(Math.random() * SIZE);
+                    int rand2 = (int)(Math.random() * SIZE);
+                    if (map[rand1][rand2] == null) {
+                        map[rand1][rand2] = new Grass(50);
+                        //System.out.println("Grass spawned");
+                        break;
+                    }
                 }
-            }
+            } else return;
         }
     }
 
@@ -116,16 +118,33 @@ class GridTest {
           System.out.println(sC > wC ? "Sheep won" : "Wolf won");
         return false;
     }
+    
+    public static int[] count(Object[][] map) {
+        int[] arr = new int[2];
+        int w = 0;
+        int s = 0;
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (map[i][j] instanceof Wolf) {
+                    w++;
+                } else if (map[i][j] instanceof Sheep) {
+                    s++;
+                }
+            }
+        }
+        arr[0] = w; arr[1] = s;
+        return arr;
+    }
   
     public static void main(String[] args) { 
         Object map[][] = new Object[SIZE][SIZE];
         int turn = 0;
         // Initialize Map
         setupGame(map);
-
         //Set up Grid Panel
         DisplayGrid grid = new DisplayGrid(map);
-            System.out.println("Event log:");
+        System.out.println("Event log:");
+            
         while(true) {
             //Display the grid on a Panel
             if(stable(map)) {
@@ -136,6 +155,8 @@ class GridTest {
                 setupGame(map);
                 turn = 0;
             }
+            wolfC = count(map)[0];
+            sheepC = count(map)[1];
             grid.refresh();
 
             //Small delay
@@ -147,7 +168,8 @@ class GridTest {
 
             // Initialize Map (Making changes to map)
             moveItemsOnGrid(map);
-            moreGrass(map);
+            int r = (int) (Math.random() * 2);
+            if (r == 0) moreGrass(map,5);
             //Display the grid on a Panel
             grid.refresh();
         }

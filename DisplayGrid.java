@@ -6,16 +6,18 @@
 // Graphics Imports
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
+import java.awt.GraphicsEnvironment;
 
 
 class DisplayGrid { 
     private JFrame frame;
     private int maxX,maxY, GridToScreenRatio;
     private Object world[][] = new Object[GridTest.SIZE][GridTest.SIZE];
-
     DisplayGrid(Object[][] a) { 
-        this.world = a;
-    
+        this.world = a; 
+        //get fonts
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         maxX = Toolkit.getDefaultToolkit().getScreenSize().width;
         maxY = Toolkit.getDefaultToolkit().getScreenSize().height - 200;
         GridToScreenRatio = maxY / (world.length+1);  //ratio to fit in screen as square map
@@ -42,23 +44,26 @@ class DisplayGrid {
     class GridAreaPanel extends JPanel {
         public void paintComponent(Graphics g) {        
             //super.repaint();
-
             setDoubleBuffered(true); 
             g.setColor(Color.BLACK);
             for(int i = 0; i<world[0].length;i=i+1) { 
                 for(int j = 0; j<world.length;j=j+1) { 
                     if (world[i][j] instanceof Sheep) {   //This block can be changed to match character-color pairs
-                        g.setColor(Color.RED);
+                        g.setColor(Color.WHITE);
                     } else if (world[i][j] instanceof Grass) {
-                        g.setColor(Color.BLUE);
-                    } else if (world[i][j] instanceof Wolf)
                         g.setColor(Color.YELLOW);
+                    } else if (world[i][j] instanceof Wolf)
+                        g.setColor(Color.GRAY);
                     else {
                         g.setColor(Color.GREEN);
                     }
                     g.fillRect(j*GridToScreenRatio, i*GridToScreenRatio, GridToScreenRatio, GridToScreenRatio);
-                    g.setColor(Color.BLACK);
+                    g.setColor(Color.GREEN);
                     g.drawRect(j*GridToScreenRatio, i*GridToScreenRatio, GridToScreenRatio, GridToScreenRatio);
+                    g.setColor(Color.BLACK);
+                    g.setFont(new Font("Comic Sans MS", Font.PLAIN, 40)); 
+                    g.drawString("SHEEP COUNT: " + GridTest.sheepC, 900, 100);
+                    g.drawString("WOLF COUNT: " + GridTest.wolfC, 900, 200);
                 }
             }
         }

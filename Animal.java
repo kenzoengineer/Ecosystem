@@ -34,8 +34,9 @@ abstract public class Animal extends Object{
     }
     
     public void subHealth(int h) {
-        if (this.health <= 100) {
-            this.health -= h;
+        this.health -= h;
+        if (this.health >= 100) {
+            this.health = 100;
         }
     }
     
