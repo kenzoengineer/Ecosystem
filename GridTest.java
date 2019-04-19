@@ -4,49 +4,49 @@
  */
 
 
-class GridTest { 
+class GridTest {
     public static final int WOLF_NUMBER = 5;
     public static final int SHEEP_NUMBER = 70;
     public static final int GRASS_NUMBER = 100;
     public static final int SIZE = 25;
     public static final int DELAY = 100;
-    
-  public static void main(String[] args) { 
-    Object map[][] = new Object[SIZE][SIZE];
-    int turn = 0;
-    // Initialize Map
-    setupGame(map);
-    
-    //Set up Grid Panel
-    DisplayGrid grid = new DisplayGrid(map);
-      System.out.println("Event log:");
-    while(true) {
-    //Display the grid on a Panel
-    if(stable(map)) {
-        turn++;
-    } else {
-        System.out.println("Turn : " + turn);
-        resetGame(map);
+
+    public static void main(String[] args) { 
+        Object map[][] = new Object[SIZE][SIZE];
+        int turn = 0;
+        // Initialize Map
         setupGame(map);
-        turn = 0;
-    }
-    grid.refresh();
-    
-    
-    //Small delay
-    try {
-        Thread.sleep(DELAY);
-    }catch(Exception e) {
-        e.printStackTrace();
-    };
-    
-    
-    // Initialize Map (Making changes to map)
-    moveItemsOnGrid(map);
-    moreGrass(map);
-    //Display the grid on a Panel
-    grid.refresh();
-    }
+
+        //Set up Grid Panel
+        DisplayGrid grid = new DisplayGrid(map);
+          System.out.println("Event log:");
+        while(true) {
+        //Display the grid on a Panel
+        if(stable(map)) {
+            turn++;
+        } else {
+            System.out.println("Turn : " + turn);
+            resetGame(map);
+            setupGame(map);
+            turn = 0;
+        }
+        grid.refresh();
+
+
+        //Small delay
+        try {
+            Thread.sleep(DELAY);
+        }catch(Exception e) {
+            e.printStackTrace();
+        };
+
+
+        // Initialize Map (Making changes to map)
+        moveItemsOnGrid(map);
+        moreGrass(map);
+        //Display the grid on a Panel
+        grid.refresh();
+        }
   }
   
   public static void setupGame(Object[][] map) {
