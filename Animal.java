@@ -2,13 +2,10 @@ abstract public class Animal extends Object{
     //animal health
     private int health;
     //reproduction cooldown time
-    private int cooldown;
-    //if already moved this turn
     private boolean tired;
     
     public Animal(int h) {
         this.health = h;
-        this.cooldown = 2;
         this.tired = false;
     }
     
@@ -40,14 +37,6 @@ abstract public class Animal extends Object{
         if (this.health <= 100) {
             this.health -= h;
         }
-    }
-    
-    public int getCooldown() {
-        return cooldown;
-    }
-    
-    public void setCooldown(int c) {
-        this.cooldown = c;
     }
     
     public static int[] findEmpty(Object[][] map) {
