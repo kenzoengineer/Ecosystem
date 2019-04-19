@@ -9,15 +9,13 @@ class GridTest {
     public static final int SHEEP_NUMBER = 70;
     public static final int GRASS_NUMBER = 100;
     public static final int SIZE = 25;
-    public static final int DELAY = 10;
+    public static final int DELAY = 100;
     
   public static void main(String[] args) { 
     Object map[][] = new Object[SIZE][SIZE];
     int turn = 0;
     // Initialize Map
     setupGame(map);
-    // display the fake grid on Console
-    //DisplayGridOnConsole(map);
     
     //Set up Grid Panel
     DisplayGrid grid = new DisplayGrid(map);
@@ -28,7 +26,9 @@ class GridTest {
         turn++;
     } else {
         System.out.println("Turn : " + turn);
-        break;
+        resetGame(map);
+        setupGame(map);
+        turn = 0;
     }
     grid.refresh();
     
@@ -73,8 +73,16 @@ class GridTest {
           int a = (int) (Math.random() * SIZE);
           int b = (int) (Math.random() * SIZE);
           if (map[a][b] == null) {
-              map[a][b] = new Grass(30);
+              map[a][b] = new Grass(50);
               i++;
+          }
+      }
+  }
+  
+  public static void resetGame(Object[][] map) {
+      for (int i = 0; i < SIZE; i++) {
+          for (int j = 0; j < SIZE; j++) {
+              map[i][j] = null;
           }
       }
   }
@@ -85,7 +93,7 @@ class GridTest {
           for (int j = 0; j < SIZE; j++) {
               if (map[i][j] instanceof Animal && !((Animal)map[i][j]).getTired()) {
                   if(((Animal)map[i][j]).dead()) {
-                      System.out.println( map[i][j].getClass().getName() + " died!");
+                      //System.out.println( map[i][j].getClass().getName() + " died!");
                       map[i][j] = null;
                   } else {
                       ((Animal)map[i][j]).setTired(true);
@@ -94,6 +102,12 @@ class GridTest {
                       } else {
                           ((Sheep)map[i][j]).moveRandom(map,i,j);
                       }
+                  }
+              } else if (map[i][j] instanceof Grass) {
+                  if (((Grass)map[i][j]).getNutrition() == 0) {
+                      map[i][j] = null;
+                  } else {
+                      ((Grass)map[i][j]).rot();
                   }
               }
           }
@@ -108,14 +122,14 @@ class GridTest {
   }
   
   public static void moreGrass(Object[][] map) {
-      int rand = (int)(Math.random() * 7);
-      if (rand == 1) {
-          for (int i = 0; i < 5; i++) {
+      int rand = (int)(Math.random() * 2);
+      if (rand == 0 && (Animal.findEmpty(map)[0] >= 0)) {
+          while (true) {
               int rand1 = (int)(Math.random() * SIZE);
               int rand2 = (int)(Math.random() * SIZE);
               if (map[rand1][rand2] == null) {
-                  map[rand1][rand2] = new Grass(30);
-                  System.out.println("Grass spawned");
+                  map[rand1][rand2] = new Grass(50);
+                  //System.out.println("Grass spawned");
                   return;
               }
           }
@@ -143,6 +157,10 @@ class GridTest {
             }
         }
     }
-    return sC > 0 && wC > 0;
+    if (sC > 0 && wC > 0) {
+        return true;
+    }
+      System.out.println(sC > wC ? "Sheep won" : "Wolf won");
+    return false;
   }
 }

@@ -8,7 +8,7 @@ public class Wolf extends Animal implements Comparable<Wolf>{
         int health = ((Animal) map[sA][sB]).getHealth();
         ((Animal)map[wA][wB]).subHealth(-1 * health);
         move(map,wA,wB,sA,sB);
-        System.out.println("Wolf ate a sheep");
+        //System.out.println("Wolf ate a sheep");
     }
     
     /**
@@ -26,14 +26,14 @@ public class Wolf extends Animal implements Comparable<Wolf>{
             //defender is dead
             if (((Animal)map[dA][dB]).dead()) {
                 move(map, aA, aB, dA, dB);
-                System.out.println("Defender lost and died");
+                //System.out.println("Defender lost and died");
             } else {
-                System.out.println("Defender lost but survived");
+                //System.out.println("Defender lost but survived");
             }
         //attacker has less hp
         } else {
             this.subHealth(10);
-            System.out.println("Attacker lost!!");
+            //System.out.println("Attacker lost!!");
         }
     }
     

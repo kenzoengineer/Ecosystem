@@ -1,6 +1,4 @@
 public class Grass extends Object{
-    //how long until it releases seeds
-    private int seed;
     //grass nutrition
     private int nutrition;
     
@@ -10,5 +8,9 @@ public class Grass extends Object{
     
     public int getNutrition() {
         return this.nutrition;
+    }
+    
+    public void rot() {
+        this.nutrition--;
     }
 }

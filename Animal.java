@@ -50,7 +50,7 @@ abstract public class Animal extends Object{
         this.cooldown = c;
     }
     
-    public int[] findEmpty(Object[][] map) {
+    public static int[] findEmpty(Object[][] map) {
         int[] arr = new int[2]; 
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map.length; j++) {

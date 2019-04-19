@@ -8,7 +8,7 @@ public class Sheep extends Animal {
         int health = ((Grass) map[gA][gB]).getNutrition();
         ((Animal)map[sA][sB]).subHealth(-1 * health);
         move(map,sA,sB,gA,gB);
-        System.out.println("Sheep ate grass");
+        //System.out.println("Sheep ate grass");
     }
     
     public void breed(Object[][] map, int sA, int sB, int mA, int mB) {
@@ -21,7 +21,7 @@ public class Sheep extends Animal {
                 int r2 = (int) (Math.random() * GridTest.SIZE);
                 if (map[r1][r2] == null) {
                     map[r1][r2] = new Sheep(20);
-                    System.out.println("Sheeps bred " + r1 +  " " + r2);
+                    //System.out.println("Sheeps bred " + r1 +  " " + r2);
                     return;
                 }
             }
