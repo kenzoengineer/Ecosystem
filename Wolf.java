@@ -3,6 +3,14 @@ public class Wolf extends Animal implements Comparable<Wolf>{
         super(h);
     }
     
+    /**
+     * Makes the wolf eat the sheep and moves the wolf to it's location
+     * @param map a 2d array of the world
+     * @param wA the wolf's x coordinate
+     * @param wB the wolf's y coordinate
+     * @param sA the sheep's x coordinate
+     * @param sB the sheep's y coordinate
+     */
     @Override
     public void eat(Object[][] map, int wA, int wB, int sA, int sB) {
         int health = ((Animal) map[sA][sB]).getHealth();
@@ -37,11 +45,49 @@ public class Wolf extends Animal implements Comparable<Wolf>{
         }
     }
     
+    /**
+     * Implements comparable to allow wolves to be sorted and compared to
+     * @param w the other wolf
+     * @return a positive or negative integer or 0 depending on whether the wolf's hp is
+     * greater, less than or equal to the other
+     */
     @Override
     public int compareTo(Wolf w) {
         return this.getHealth() - w.getHealth();
     }
     
+    /**
+     * Breeds two wolves of the opposite gender, creating a new wolf of hp 20 at
+     * a random location on the map and subtracting 10 hp from both parents
+     * @param map a 2d array of the world
+     * @param mA the mate's x coordinate
+     * @param mB the mate's y coordinate
+     */
+    @Override
+    public void breed(Object[][] map, int mA, int mB) {
+        //if both animals have enought health to breed
+        if (this.getHealth() > 20 && ((Animal)map[mA][mB]).getHealth() > 20 && findEmpty(map)[0] >= 0) {
+            this.subHealth(10);
+            ((Animal)map[mA][mB]).subHealth(10);
+            while (true) {
+                int r1 = (int) (Math.random() * GridTest.SIZE);
+                int r2 = (int) (Math.random() * GridTest.SIZE);
+                if (map[r1][r2] == null) {
+                    map[r1][r2] = new Wolf(20);
+                    //System.out.println("Wolves bred " + r1 +  " " + r2);
+                    return;
+                }
+            }
+        }
+    } 
+    
+    /**
+     * Chooses a random direction for the wolf to move to. It then handles
+     * breeding and eating.
+     * @param map a 2d array of the world
+     * @param a the wolf's x coordinate
+     * @param b the wolf's y coordinate
+     */
     @Override
     public void moveRandom(Object[][] map, int a, int b) {
         int rand = (int) (Math.random() * 4);
@@ -52,7 +98,11 @@ public class Wolf extends Animal implements Comparable<Wolf>{
                 } else if (map[a-1][b] == null) {
                     move(map, a, b, a-1, b);
                 } else if (map[a-1][b] instanceof Wolf) {
-                    attack(map, a, b, a-1, b);
+                    if (this.sameGender((Animal)map[a-1][b])) {
+                        attack(map, a, b, a-1, b);
+                    } else {
+                        breed(map, a-1, b);
+                    }
                 }
             }
         } else if (rand == 1) {
@@ -62,7 +112,11 @@ public class Wolf extends Animal implements Comparable<Wolf>{
                 } else if (map[a+1][b] == null) {
                     move(map, a, b, a+1, b);
                 } else if (map[a+1][b] instanceof Wolf) {
-                    attack(map, a, b, a+1, b);
+                    if (this.sameGender((Animal)map[a+1][b])) {
+                        attack(map, a, b, a+1, b);
+                    } else {
+                        breed(map, a+1, b);
+                    }
                 }
             }
         } else if (rand == 2) {
@@ -72,7 +126,11 @@ public class Wolf extends Animal implements Comparable<Wolf>{
                 } else if (map[a][b-1] == null) {
                     move(map, a, b, a, b-1);
                 } else if (map[a][b-1] instanceof Wolf) {
-                    attack(map, a, b, a, b-1);
+                    if (this.sameGender((Animal)map[a][b-1])) {
+                        attack(map, a, b, a, b-1);
+                    } else {
+                        breed(map, a, b-1);
+                    }
                 }
             }
         } else if (rand == 3) {
@@ -82,7 +140,11 @@ public class Wolf extends Animal implements Comparable<Wolf>{
                 } else if (map[a][b+1] == null) {
                     move(map, a, b, a, b+1);
                 } else if (map[a][b+1] instanceof Wolf){
-                    attack(map, a, b, a, b+1);
+                    if (this.sameGender((Animal)map[a][b+1])) {
+                        attack(map, a, b, a, b+1);
+                    } else {
+                        breed(map, a, b+1);
+                    }
                 }
             }
         }

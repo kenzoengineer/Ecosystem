@@ -5,13 +5,20 @@
 
 
 class GridTest {
-    public static final int WOLF_NUMBER = 70;
+    //constants
+    public static final int WOLF_NUMBER = 30;
     public static final int SHEEP_NUMBER = 70;
     public static final int GRASS_NUMBER = 100;
     public static final int SIZE = 25;
     public static final int DELAY = 50;
+    //tracks how many of each entity exists
     public static int wolfC = 0;
     public static int sheepC = 0;
+    
+    /**
+     * Spawns a set amount of each entity at random locations on the map
+     * @param map a 2d array of the world
+     */
     public static void setupGame(Object[][] map) {
         int i = 0;
         while (i < WOLF_NUMBER) {
@@ -27,7 +34,7 @@ class GridTest {
             int a = (int) (Math.random() * SIZE);
             int b = (int) (Math.random() * SIZE);
             if (map[a][b] == null) {
-                map[a][b] = new Sheep(30);
+                map[a][b] = new Sheep(40);
                 i++;
             }
         }
@@ -42,6 +49,10 @@ class GridTest {
         }
     }
 
+    /**
+     * Resets the map by setting all tiles to null
+     * @param map a 2d array of the map
+     */
     public static void resetGame(Object[][] map) {
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
@@ -50,7 +61,11 @@ class GridTest {
         }
     }
   
-  // Method to simulate grid movement
+    /**
+     * Advances the turn by moving all movable objects on the grid
+     * Animals are checked for death and are moved, while grass is also checked for death
+     * @param map a 2d array of the world
+     */
     public static void moveItemsOnGrid(Object[][] map) { 
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
@@ -84,6 +99,11 @@ class GridTest {
         }
     }
   
+    /**
+     * Spawns a set amount of grass randomly on the map, stops short if there is no room
+     * @param map a 2d array of the world
+     * @param a the amount of grass to be spawned
+     */
     public static void moreGrass(Object[][] map, int a) {
         for (int i = 0; i < a; i++) {
             if ((Animal.findEmpty(map)[0] >= 0)) {
@@ -100,6 +120,11 @@ class GridTest {
         }
     }
 
+    /**
+     * Checks if one animal (sheep/wolf) no longer exists and the ecosystem is no longer stable
+     * @param map a 2d array of the world
+     * @return whether the ecosystem is still stable or not
+     */
     public static boolean stable(Object[][] map) {
         int sC = 0;
         int wC = 0;
@@ -119,6 +144,11 @@ class GridTest {
         return false;
     }
     
+    /**
+     * Helper method to count how many of each entity still exists
+     * @param map a 2d array of the world
+     * @return an array of the amount of wolves and sheep
+     */
     public static int[] count(Object[][] map) {
         int[] arr = new int[2];
         int w = 0;
