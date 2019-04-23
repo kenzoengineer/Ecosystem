@@ -20,6 +20,26 @@ public class Wolf extends Animal implements Comparable<Wolf>{
     }
     
     /**
+     * Prioritizes sheep over moving to a null tile
+     * @param map a 2d array of the world
+     * @param a is the wolf's x coord
+     * @param b is the wolf's x coord
+     */
+    @Override
+    public int priority(Object[][] map, int a, int b) {
+        if (a >= 1 && map[a-1][b] instanceof Sheep) {
+            return 0;
+        } else if (a < GridTest.SIZE - 1 && map[a+1][b] instanceof Sheep) {
+            return 1;
+        } else if (b >= 1 && map[a][b-1] instanceof Sheep) {
+            return 2;
+        } else if (b < GridTest.SIZE - 1 && map[a][b+1] instanceof Sheep) {
+            return 3;
+        }
+        return -1;
+    }
+    
+    /**
      * When a wolf attacks another wolf. Biased towards attacker as there is an element of surprise
      * @param map a 2d array containing the world map
      * @param aA attacker x coord
@@ -90,7 +110,12 @@ public class Wolf extends Animal implements Comparable<Wolf>{
      */
     @Override
     public void moveRandom(Object[][] map, int a, int b) {
-        int rand = (int) (Math.random() * 4);
+        int rand;
+        if (priority(map, a, b) == -1) {
+            rand = (int) (Math.random() * 4);
+        } else {
+            rand = priority(map, a, b);
+        }
         if (rand == 0) {
             if (a >= 1) {
                 if (map[a-1][b] instanceof Sheep) {

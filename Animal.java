@@ -120,7 +120,7 @@ abstract public class Animal extends Object{
     
     /**
      * Methods which handles random movement, eating and breeding
-     * @param map a 2d array map of the world
+     * @param map a 2d array of the world
      * @param a a x coordinate
      * @param b a y coordinate
      */
@@ -128,9 +128,17 @@ abstract public class Animal extends Object{
     
     /**
      * Breeds this and another animal, spawning a 20 hp animal and reducing the parent's health by 20
-     * @param map a 2d array map of the world
+     * @param map a 2d array of the world
      * @param a the x coordinate of the mate
      * @param b the y coordinate of the mate
      */
     abstract public void breed(Object[][] map, int a, int b);
+    
+    /**
+     * Checks within 1 tile of the animal for its prey
+     * @param map a 2d array of the world
+     * @param a the x coordinate of the animal
+     * @param b the y coordinate of the animal
+     */
+    abstract public int priority(Object[][] map, int a, int b);
 }

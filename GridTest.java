@@ -10,7 +10,7 @@ class GridTest {
     public static final int SHEEP_NUMBER = 70;
     public static final int GRASS_NUMBER = 100;
     public static final int SIZE = 25;
-    public static final int DELAY = 50;
+    public static final int DELAY = 1000;
     //tracks how many of each entity exists
     public static int wolfC = 0;
     public static int sheepC = 0;
