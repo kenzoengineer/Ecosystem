@@ -1,6 +1,4 @@
-abstract public class Animal extends Object{
-    //hp of the animal
-    private int health;
+abstract public class Animal extends Organism{
     //whether the animal has moved or not, true if it has and is now tired
     private boolean tired;
     //the animals gender, true if male, false if female
@@ -70,7 +68,7 @@ abstract public class Animal extends Object{
      * @param map a 2d array of the world
      * @return the coordinates of the empty location, (-1,-1) if none exists
      */
-    public static int[] findEmpty(Object[][] map) {
+    public static int[] findEmpty(Organism[][] map) {
         int[] arr = new int[2]; 
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map.length; j++) {
@@ -103,7 +101,7 @@ abstract public class Animal extends Object{
      * @param x the x coord of the destination
      * @param y the y coord of the destination
      */
-    public void move(Object[][] map, int a, int b, int x, int y) {
+    public void move(Organism[][] map, int a, int b, int x, int y) {
         map[x][y] = map[a][b];
         map[a][b] = null;
     }
@@ -116,7 +114,7 @@ abstract public class Animal extends Object{
      * @param c the x coord of the prey
      * @param d the y coord of the prey
      */
-    abstract public void eat(Object[][] map, int a, int b, int c, int d);
+    abstract public void eat(Organism[][] map, int a, int b, int c, int d);
     
     /**
      * Methods which handles random movement, eating and breeding
@@ -124,7 +122,7 @@ abstract public class Animal extends Object{
      * @param a a x coordinate
      * @param b a y coordinate
      */
-    abstract public void moveRandom(Object[][] map, int a, int b);
+    abstract public void moveRandom(Organism[][] map, int a, int b);
     
     /**
      * Breeds this and another animal, spawning a 20 hp animal and reducing the parent's health by 20
@@ -132,7 +130,7 @@ abstract public class Animal extends Object{
      * @param a the x coordinate of the mate
      * @param b the y coordinate of the mate
      */
-    abstract public void breed(Object[][] map, int a, int b);
+    abstract public void breed(Organism[][] map, int a, int b);
     
     /**
      * Checks within 1 tile of the animal for its prey
@@ -140,5 +138,5 @@ abstract public class Animal extends Object{
      * @param a the x coordinate of the animal
      * @param b the y coordinate of the animal
      */
-    abstract public int priority(Object[][] map, int a, int b);
+    abstract public int priority(Organism[][] map, int a, int b);
 }

@@ -1,4 +1,7 @@
+import java.util.Arrays;
 public class Wolf extends Animal implements Comparable<Wolf>{
+    int locX;
+    int locY;
     public Wolf(int h) {
         super(h);
     }
@@ -12,7 +15,7 @@ public class Wolf extends Animal implements Comparable<Wolf>{
      * @param sB the sheep's y coordinate
      */
     @Override
-    public void eat(Object[][] map, int wA, int wB, int sA, int sB) {
+    public void eat(Organism[][] map, int wA, int wB, int sA, int sB) {
         int health = ((Animal) map[sA][sB]).getHealth();
         ((Animal)map[wA][wB]).subHealth(-1 * health);
         move(map,wA,wB,sA,sB);
@@ -26,7 +29,7 @@ public class Wolf extends Animal implements Comparable<Wolf>{
      * @param b is the wolf's x coord
      */
     @Override
-    public int priority(Object[][] map, int a, int b) {
+    public int priority(Organism[][] map, int a, int b) {
         if (a >= 1 && map[a-1][b] instanceof Sheep) {
             return 0;
         } else if (a < GridTest.SIZE - 1 && map[a+1][b] instanceof Sheep) {
@@ -40,6 +43,46 @@ public class Wolf extends Animal implements Comparable<Wolf>{
     }
     
     /**
+     * Brute force finds location of prey within a radius
+     * @param map a 2d array of the world
+     * @param a the x coord
+     * @param b the y coord
+     * @param r the search radius
+     */
+    public void findClose(Organism[][] map, int a, int b, int r) {
+        if (map[a][b] instanceof Sheep) {
+            locX = a;
+            locY = b;
+            return;
+        } else if (r >= 0) {
+            if (a >= 1) {
+                findClose(map, a-1, b, r-1);
+            }
+            if (a < GridTest.SIZE - 1) {
+                findClose(map, a+1, b, r-1);
+            }
+            if (b >= 1) {
+                findClose(map, a, b-1, r-1);
+            }
+            if (b < GridTest.SIZE - 1) {
+                findClose(map, a, b+1, r-1);
+            }
+        }
+    }
+    
+    public int pathFind(int a, int b, int x, int y) {
+        if (a < x) {
+            return 1;
+        } else if (a > x) {
+            return 0;
+        } else if (b < y) {
+            return 3;
+        } else {
+            return 2;
+        }
+    }
+    
+    /**
      * When a wolf attacks another wolf. Biased towards attacker as there is an element of surprise
      * @param map a 2d array containing the world map
      * @param aA attacker x coord
@@ -47,7 +90,7 @@ public class Wolf extends Animal implements Comparable<Wolf>{
      * @param dA defender x coord
      * @param dB defender y coord
      */
-    public void attack(Object[][] map, int aA, int aB, int dA, int dB) {
+    public void attack(Organism[][] map, int aA, int aB, int dA, int dB) {
         //attacker has more or equal hp
         if (this.compareTo((Wolf)map[dA][dB]) >= 0) {
             ((Animal)map[dA][dB]).subHealth(10);
@@ -84,7 +127,7 @@ public class Wolf extends Animal implements Comparable<Wolf>{
      * @param mB the mate's y coordinate
      */
     @Override
-    public void breed(Object[][] map, int mA, int mB) {
+    public void breed(Organism[][] map, int mA, int mB) {
         //if both animals have enought health to breed
         if (this.getHealth() > 20 && ((Animal)map[mA][mB]).getHealth() > 20 && findEmpty(map)[0] >= 0) {
             this.subHealth(10);
@@ -109,12 +152,15 @@ public class Wolf extends Animal implements Comparable<Wolf>{
      * @param b the wolf's y coordinate
      */
     @Override
-    public void moveRandom(Object[][] map, int a, int b) {
+    public void moveRandom(Organism[][] map, int a, int b) {
         int rand;
-        if (priority(map, a, b) == -1) {
+        locX = -1;
+        locY = -1;
+        findClose(map, a, b, 5);
+        if (locX == -1) {
             rand = (int) (Math.random() * 4);
         } else {
-            rand = priority(map, a, b);
+            rand = pathFind(a,b,locX, locY);
         }
         if (rand == 0) {
             if (a >= 1) {

@@ -12,7 +12,7 @@ public class Sheep extends Animal {
      * @param gB the grass's y coordinate
      */
     @Override
-    public void eat(Object[][] map, int sA, int sB, int gA, int gB) {
+    public void eat(Organism[][] map, int sA, int sB, int gA, int gB) {
         int health = ((Grass) map[gA][gB]).getNutrition();
         ((Animal)map[sA][sB]).subHealth(-1 * health);
         move(map,sA,sB,gA,gB);
@@ -27,7 +27,7 @@ public class Sheep extends Animal {
      * @param mB the mate's y coordinate
      */
     @Override
-    public void breed(Object[][] map, int mA, int mB) {
+    public void breed(Organism[][] map, int mA, int mB) {
         //if both animals have enought health to breed
         if (this.getHealth() > 20 && ((Animal)map[mA][mB]).getHealth() > 20 && findEmpty(map)[0] >= 0) {
             this.subHealth(10);
@@ -51,7 +51,7 @@ public class Sheep extends Animal {
      * @param b is the sheep's x coord
      */
     @Override
-    public int priority(Object[][] map, int a, int b) {
+    public int priority(Organism[][] map, int a, int b) {
         if (a >= 1 && map[a-1][b] instanceof Grass) {
             return 0;
         } else if (a < GridTest.SIZE - 1 && map[a+1][b] instanceof Grass) {
@@ -72,7 +72,7 @@ public class Sheep extends Animal {
      * @param b the sheep's y coordinate
      */
     @Override
-    public void moveRandom(Object[][] map, int a, int b) {
+    public void moveRandom(Organism[][] map, int a, int b) {
         int rand;
         if (priority(map, a, b) == -1) {
             rand = (int) (Math.random() * 4);

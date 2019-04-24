@@ -6,8 +6,8 @@
 
 class GridTest {
     //constants
-    public static final int WOLF_NUMBER = 30;
-    public static final int SHEEP_NUMBER = 70;
+    public static final int WOLF_NUMBER = 10;
+    public static final int SHEEP_NUMBER = 40;
     public static final int GRASS_NUMBER = 100;
     public static final int SIZE = 25;
     public static final int DELAY = 1000;
@@ -19,7 +19,7 @@ class GridTest {
      * Spawns a set amount of each entity at random locations on the map
      * @param map a 2d array of the world
      */
-    public static void setupGame(Object[][] map) {
+    public static void setupGame(Organism[][] map) {
         int i = 0;
         while (i < WOLF_NUMBER) {
             int a = (int) (Math.random() * SIZE);
@@ -53,7 +53,7 @@ class GridTest {
      * Resets the map by setting all tiles to null
      * @param map a 2d array of the map
      */
-    public static void resetGame(Object[][] map) {
+    public static void resetGame(Organism[][] map) {
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 map[i][j] = null;
@@ -66,7 +66,7 @@ class GridTest {
      * Animals are checked for death and are moved, while grass is also checked for death
      * @param map a 2d array of the world
      */
-    public static void moveItemsOnGrid(Object[][] map) { 
+    public static void moveItemsOnGrid(Organism[][] map) { 
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 if (map[i][j] instanceof Animal && !((Animal)map[i][j]).getTired()) {
@@ -104,7 +104,7 @@ class GridTest {
      * @param map a 2d array of the world
      * @param a the amount of grass to be spawned
      */
-    public static void moreGrass(Object[][] map, int a) {
+    public static void moreGrass(Organism[][] map, int a) {
         for (int i = 0; i < a; i++) {
             if ((Animal.findEmpty(map)[0] >= 0)) {
                 while (true) {
@@ -125,7 +125,7 @@ class GridTest {
      * @param map a 2d array of the world
      * @return whether the ecosystem is still stable or not
      */
-    public static boolean stable(Object[][] map) {
+    public static boolean stable(Organism[][] map) {
         int sC = 0;
         int wC = 0;
         for (int i = 0; i < map.length; i++) {
@@ -149,7 +149,7 @@ class GridTest {
      * @param map a 2d array of the world
      * @return an array of the amount of wolves and sheep
      */
-    public static int[] count(Object[][] map) {
+    public static int[] count(Organism[][] map) {
         int[] arr = new int[2];
         int w = 0;
         int s = 0;
@@ -167,7 +167,7 @@ class GridTest {
     }
   
     public static void main(String[] args) { 
-        Object map[][] = new Object[SIZE][SIZE];
+        Organism map[][] = new Organism[SIZE][SIZE];
         int turn = 0;
         // Initialize Map
         setupGame(map);
