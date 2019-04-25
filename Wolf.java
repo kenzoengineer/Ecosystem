@@ -92,9 +92,10 @@ public class Wolf extends Animal implements Comparable<Wolf>{
     @Override
     public void breed(Organism[][] map, int mA, int mB) {
         //if both animals have enought health to breed
-        if (this.getHealth() > 20 && ((Animal)map[mA][mB]).getHealth() > 20 && findEmpty(map)[0] >= 0) {
+        if (this.getHealth() > 20 && ((Animal)map[mA][mB]).getHealth() > 20 && (this.getCooldown() + ((Animal)map[mA][mB]).getCooldown() == 0) && findEmpty(map)[0] >= 0) {
             this.subHealth(10);
             ((Animal)map[mA][mB]).subHealth(10);
+            this.setCooldown(10);
             while (true) {
                 int r1 = (int) (Math.random() * GridTest.SIZE);
                 int r2 = (int) (Math.random() * GridTest.SIZE);
@@ -187,5 +188,8 @@ public class Wolf extends Animal implements Comparable<Wolf>{
             }
         }
         this.subHealth(1);
+        if (this.getCooldown() > 0) {
+            this.subCooldown(1);
+        }
     }
 }

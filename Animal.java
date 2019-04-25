@@ -3,6 +3,8 @@ abstract public class Animal extends Organism{
     private boolean tired;
     //the animals gender, true if male, false if female
     private boolean isMale;
+    //breeding cooldown
+    private int cooldown;
     //
     private int preyX;
     private int preyY;
@@ -12,6 +14,7 @@ abstract public class Animal extends Organism{
         this.tired = false;
         int r = (int) (Math.random() * 2);
         isMale = (r == 0);
+        this.cooldown = 20;
     }
     
     /**
@@ -65,6 +68,30 @@ abstract public class Animal extends Organism{
         }
     }
    
+    /**
+     * Sets the value of a cooldown to an integer
+     * @param cooldown the value to set the cooldown to
+     */
+    public void setCooldown(int cooldown) {
+        this.cooldown = cooldown;
+    }
+    
+    /**
+     * Gets the value of the cooldown
+     * @return cooldown value
+     */
+    public int getCooldown() {
+        return cooldown;
+    }
+    
+    /**
+     * Subtracts the cooldown value by integer s
+     * @param s the amount to subtract from cooldown
+     */
+    public void subCooldown(int s) {
+        this.cooldown -= s;
+    } 
+    
     /**
      * Sets the x and y coords for the closest prey
      * @param x the prey x coord
