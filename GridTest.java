@@ -6,8 +6,8 @@
 
 class GridTest {
     //constants
-    public static final int WOLF_NUMBER = 2;
-    public static final int SHEEP_NUMBER = 20;
+    public static final int WOLF_NUMBER = 3;
+    public static final int SHEEP_NUMBER = 100;
     public static final int GRASS_NUMBER = 100;
     public static final int SIZE = 25;
     public static final int DELAY = 100;
@@ -191,7 +191,7 @@ class GridTest {
 
             //Small delay
             try {
-                Thread.sleep(DELAY);
+                Thread.sleep(16);
             }catch(Exception e) {
                 e.printStackTrace();
             };

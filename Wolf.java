@@ -1,7 +1,13 @@
 public class Wolf extends Animal implements Comparable<Wolf>{
+    private int searchR = 2;
     public Wolf(int h) {
         super(h);
     }
+    
+    public int getRadius() {
+        return searchR;
+    }
+    
     
     /**
      * Makes the wolf eat the sheep and moves the wolf to it's location
@@ -120,8 +126,16 @@ public class Wolf extends Animal implements Comparable<Wolf>{
         int rand;
         //resets closes prey value
         this.setXY(-1,-1);
-        //finds the closest prey
-        findClose(map, a, b, 2);
+        
+        //if the animal is low hp, it lusts for blood and extends its search radius
+        if (this.getHealth() < 34) { 
+            searchR = 5;
+        } else {
+            searchR = 2;
+        }
+        
+        //finds closest prey in the radius
+        findClose(map, a, b, searchR);
         //if none is found, randomly move
         if (this.getXY()[0] == -1) {
             rand = (int) (Math.random() * 4);

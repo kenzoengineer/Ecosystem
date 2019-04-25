@@ -53,9 +53,13 @@ class DisplayGrid {
                         g.setColor(Color.WHITE);
                     } else if (world[i][j] instanceof Grass) {
                         g.setColor(Color.GREEN);
-                    } else if (world[i][j] instanceof Wolf)
-                        g.setColor(Color.GRAY);
-                    else {
+                    } else if (world[i][j] instanceof Wolf) {
+                        if (((Wolf)world[i][j]).getRadius() == 2) {
+                            g.setColor(Color.GRAY);
+                        } else {
+                            g.setColor(new Color(46,46,46));
+                        }
+                    } else {
                         g.setColor(darkGreen);
                     }
                     g.fillRect(j*GridToScreenRatio, i*GridToScreenRatio, GridToScreenRatio, GridToScreenRatio);
