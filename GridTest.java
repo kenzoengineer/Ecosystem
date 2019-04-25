@@ -6,11 +6,11 @@
 
 class GridTest {
     //constants
-    public static final int WOLF_NUMBER = 10;
-    public static final int SHEEP_NUMBER = 40;
+    public static final int WOLF_NUMBER = 2;
+    public static final int SHEEP_NUMBER = 20;
     public static final int GRASS_NUMBER = 100;
     public static final int SIZE = 25;
-    public static final int DELAY = 1000;
+    public static final int DELAY = 100;
     //tracks how many of each entity exists
     public static int wolfC = 0;
     public static int sheepC = 0;

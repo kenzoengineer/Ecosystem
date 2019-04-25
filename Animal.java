@@ -3,7 +3,9 @@ abstract public class Animal extends Organism{
     private boolean tired;
     //the animals gender, true if male, false if female
     private boolean isMale;
-    
+    //
+    private int preyX;
+    private int preyY;
     //constructor
     public Animal(int h) {
         this.health = h;
@@ -62,6 +64,25 @@ abstract public class Animal extends Organism{
             this.health = 100;
         }
     }
+   
+    /**
+     * Sets the x and y coords for the closest prey
+     * @param x the prey x coord
+     * @param y the prey y coord
+     */
+    public void setXY(int x, int y) {
+        this.preyX = x;
+        this.preyY = y;
+    }
+    
+    /**
+     * Returns the values of preyX and preyY as an integer array
+     * @return an integer array with preyX and preyY
+     */
+    public int[] getXY() {
+        int[] arr = {preyX, preyY};
+        return arr;
+    }
     
     /**
      * Checks if there is an empty location in the map
@@ -82,6 +103,26 @@ abstract public class Animal extends Organism{
         arr[0] = -1;
         arr[1] = -1;
         return arr;
+    }
+    
+    /**
+     * Path from a,b towards x,y. Biased to move up, then down, then right and left.
+     * @param a the x of the start position
+     * @param b the y of the start position
+     * @param x the x of the destination
+     * @param y the y of the destination
+     * @return an integer 1,2,3 or 4 depending on which direction to move. A switch case decodes this information outside of this method.
+     */
+    public int pathFind(int a, int b, int x, int y) {
+        if (a < x) {
+            return 1;
+        } else if (a > x) {
+            return 0;
+        } else if (b < y) {
+            return 3;
+        } else {
+            return 2;
+        }
     }
     
     /**
@@ -133,10 +174,11 @@ abstract public class Animal extends Organism{
     abstract public void breed(Organism[][] map, int a, int b);
     
     /**
-     * Checks within 1 tile of the animal for its prey
+     * Finds the closest prey in a radius and sets the x and y variables for it to be read by a pathfinding method
      * @param map a 2d array of the world
-     * @param a the x coordinate of the animal
-     * @param b the y coordinate of the animal
+     * @param a the x coordinate of the prey
+     * @param b the y coordinate of the prey
+     * @param r search distance radius
      */
-    abstract public int priority(Organism[][] map, int a, int b);
+    abstract public void findClose(Organism[][] map, int a, int b, int r);
 }

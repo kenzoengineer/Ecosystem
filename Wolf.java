@@ -1,7 +1,4 @@
-import java.util.Arrays;
 public class Wolf extends Animal implements Comparable<Wolf>{
-    int locX;
-    int locY;
     public Wolf(int h) {
         super(h);
     }
@@ -23,26 +20,6 @@ public class Wolf extends Animal implements Comparable<Wolf>{
     }
     
     /**
-     * Prioritizes sheep over moving to a null tile
-     * @param map a 2d array of the world
-     * @param a is the wolf's x coord
-     * @param b is the wolf's x coord
-     */
-    @Override
-    public int priority(Organism[][] map, int a, int b) {
-        if (a >= 1 && map[a-1][b] instanceof Sheep) {
-            return 0;
-        } else if (a < GridTest.SIZE - 1 && map[a+1][b] instanceof Sheep) {
-            return 1;
-        } else if (b >= 1 && map[a][b-1] instanceof Sheep) {
-            return 2;
-        } else if (b < GridTest.SIZE - 1 && map[a][b+1] instanceof Sheep) {
-            return 3;
-        }
-        return -1;
-    }
-    
-    /**
      * Brute force finds location of prey within a radius
      * @param map a 2d array of the world
      * @param a the x coord
@@ -51,9 +28,7 @@ public class Wolf extends Animal implements Comparable<Wolf>{
      */
     public void findClose(Organism[][] map, int a, int b, int r) {
         if (map[a][b] instanceof Sheep) {
-            locX = a;
-            locY = b;
-            return;
+            this.setXY(a,b);
         } else if (r >= 0) {
             if (a >= 1) {
                 findClose(map, a-1, b, r-1);
@@ -67,18 +42,6 @@ public class Wolf extends Animal implements Comparable<Wolf>{
             if (b < GridTest.SIZE - 1) {
                 findClose(map, a, b+1, r-1);
             }
-        }
-    }
-    
-    public int pathFind(int a, int b, int x, int y) {
-        if (a < x) {
-            return 1;
-        } else if (a > x) {
-            return 0;
-        } else if (b < y) {
-            return 3;
-        } else {
-            return 2;
         }
     }
     
@@ -154,14 +117,18 @@ public class Wolf extends Animal implements Comparable<Wolf>{
     @Override
     public void moveRandom(Organism[][] map, int a, int b) {
         int rand;
-        locX = -1;
-        locY = -1;
-        findClose(map, a, b, 5);
-        if (locX == -1) {
+        //resets closes prey value
+        this.setXY(-1,-1);
+        //finds the closest prey
+        findClose(map, a, b, 2);
+        //if none is found, randomly move
+        if (this.getXY()[0] == -1) {
             rand = (int) (Math.random() * 4);
+        //else move towards the prey
         } else {
-            rand = pathFind(a,b,locX, locY);
+            rand = pathFind(a,b,getXY()[0], getXY()[1]);
         }
+        
         if (rand == 0) {
             if (a >= 1) {
                 if (map[a-1][b] instanceof Sheep) {

@@ -20,6 +20,32 @@ public class Sheep extends Animal {
     }
     
     /**
+     * Brute force finds location of prey within a radius
+     * @param map a 2d array of the world
+     * @param a the x coord
+     * @param b the y coord
+     * @param r the search radius
+     */
+    public void findClose(Organism[][] map, int a, int b, int r) {
+        if (map[a][b] instanceof Grass) {
+            this.setXY(a,b);
+        } else if (r >= 0) {
+            if (a >= 1) {
+                findClose(map, a-1, b, r-1);
+            }
+            if (a < GridTest.SIZE - 1) {
+                findClose(map, a+1, b, r-1);
+            }
+            if (b >= 1) {
+                findClose(map, a, b-1, r-1);
+            }
+            if (b < GridTest.SIZE - 1) {
+                findClose(map, a, b+1, r-1);
+            }
+        }
+    }
+    
+    /**
      * Breeds two sheep of the opposite gender, creating a new sheep of hp 20 at
      * a random location on the map and subtracting 10 hp from both parents
      * @param map a 2d array of the world
@@ -43,26 +69,6 @@ public class Sheep extends Animal {
             }
         }
     }
-     
-    /**
-     * Prioritizes grass over moving to a null tile
-     * @param map a 2d array of the world
-     * @param a is the sheep's x coord
-     * @param b is the sheep's x coord
-     */
-    @Override
-    public int priority(Organism[][] map, int a, int b) {
-        if (a >= 1 && map[a-1][b] instanceof Grass) {
-            return 0;
-        } else if (a < GridTest.SIZE - 1 && map[a+1][b] instanceof Grass) {
-            return 1;
-        } else if (b >= 1 && map[a][b-1] instanceof Grass) {
-            return 2;
-        } else if (b < GridTest.SIZE - 1 && map[a][b+1] instanceof Grass) {
-            return 3;
-        }
-        return -1;
-    }
     
     /**
      * Chooses a random direction for the sheep to move to. It then handles
@@ -74,11 +80,18 @@ public class Sheep extends Animal {
     @Override
     public void moveRandom(Organism[][] map, int a, int b) {
         int rand;
-        if (priority(map, a, b) == -1) {
+        //resets closest prey value
+        this.setXY(-1,-1);
+        //finds the closest prey
+        findClose(map, a, b, 2);
+        //if none is found, randomly move
+        if (this.getXY()[0] == -1) {
             rand = (int) (Math.random() * 4);
+        //else move towards the prey
         } else {
-            rand = priority(map, a, b);
+            rand = pathFind(a,b,getXY()[0], getXY()[1]);
         }
+        
         if (rand == 0) {
             if (a >= 1) {
                 if (map[a-1][b] instanceof Grass) {
