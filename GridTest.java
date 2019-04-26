@@ -10,7 +10,7 @@ class GridTest {
     public static final int SHEEP_NUMBER = 100;
     public static final int GRASS_NUMBER = 100;
     public static final int SIZE = 25;
-    public static final int DELAY = 100;
+    public static final int DELAY = 1000;
     //tracks how many of each entity exists
     public static int wolfC = 0;
     public static int sheepC = 0;
@@ -191,7 +191,7 @@ class GridTest {
 
             //Small delay
             try {
-                Thread.sleep(16);
+                Thread.sleep(200);
             }catch(Exception e) {
                 e.printStackTrace();
             };
@@ -199,7 +199,7 @@ class GridTest {
             // Initialize Map (Making changes to map)
             moveItemsOnGrid(map);
             int r = (int) (Math.random() * 2);
-            if (r == 0) moreGrass(map,5);
+            if (r == 0) moreGrass(map,8);
             //Display the grid on a Panel
             grid.refresh();
         }

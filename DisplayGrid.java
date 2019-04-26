@@ -6,6 +6,7 @@
 // Graphics Imports
 import javax.swing.*;
 import java.awt.*;
+import javax.imageio.*;
 import java.util.Arrays;
 import java.awt.GraphicsEnvironment;
 
@@ -15,12 +16,14 @@ class DisplayGrid {
     private int maxX,maxY, GridToScreenRatio;
     private Object world[][] = new Object[GridTest.SIZE][GridTest.SIZE];
     Color darkGreen = new Color(31, 102, 28);
+    Image sheep = Toolkit.getDefaultToolkit().getImage("sheep.png");
+    Image wolf = Toolkit.getDefaultToolkit().getImage("wolf.png");
     DisplayGrid(Object[][] a) { 
         this.world = a; 
         //get fonts
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         maxX = Toolkit.getDefaultToolkit().getScreenSize().width;
-        maxY = Toolkit.getDefaultToolkit().getScreenSize().height - 100;
+        maxY = Toolkit.getDefaultToolkit().getScreenSize().height - 70;
         GridToScreenRatio = maxY / (world.length+1);  //ratio to fit in screen as square map
 
         System.out.println("Map size: "+world.length+" by "+world[0].length + "\nScreen size: "+ maxX +"x"+maxY+ " Ratio: " + GridToScreenRatio);
@@ -51,20 +54,25 @@ class DisplayGrid {
                 for(int j = 0; j<world.length;j=j+1) { 
                     if (world[i][j] instanceof Sheep) {   //This block can be changed to match character-color pairs
                         g.setColor(Color.WHITE);
+                        g.drawImage(sheep,j*GridToScreenRatio,i*GridToScreenRatio,GridToScreenRatio,GridToScreenRatio,this);
                     } else if (world[i][j] instanceof Grass) {
                         g.setColor(Color.GREEN);
+                        g.fillRect(j*GridToScreenRatio, i*GridToScreenRatio, GridToScreenRatio, GridToScreenRatio);
                     } else if (world[i][j] instanceof Wolf) {
                         if (((Wolf)world[i][j]).getRadius() == 2) {
                             g.setColor(Color.GRAY);
+                            g.drawImage(wolf,j*GridToScreenRatio,i*GridToScreenRatio,GridToScreenRatio,GridToScreenRatio,this);
                         } else {
                             g.setColor(new Color(46,46,46));
+                            g.fillRect(j*GridToScreenRatio, i*GridToScreenRatio, GridToScreenRatio, GridToScreenRatio);
                         }
                     } else {
                         g.setColor(darkGreen);
+                        g.fillRect(j*GridToScreenRatio, i*GridToScreenRatio, GridToScreenRatio, GridToScreenRatio);
                     }
-                    g.fillRect(j*GridToScreenRatio, i*GridToScreenRatio, GridToScreenRatio, GridToScreenRatio);
                     g.setColor(Color.BLACK);
                     g.setFont(new Font("Comic Sans MS", Font.PLAIN, 10));
+                    /*
                     if (world[i][j] != null) {
                         if (world[i][j] instanceof Animal) {
                             g.drawString(Integer.toString(((Animal)world[i][j]).getHealth()), j*GridToScreenRatio + GridToScreenRatio /2, i*GridToScreenRatio + GridToScreenRatio /2);
@@ -72,6 +80,7 @@ class DisplayGrid {
                             g.drawString(Integer.toString(((Grass)world[i][j]).getNutrition()), j*GridToScreenRatio + GridToScreenRatio /2, i*GridToScreenRatio + GridToScreenRatio /2);
                         }
                     }
+                    */
                     //g.drawString("SHEEP COUNT: " + GridTest.sheepC, 900, 100);
                     //g.drawString("WOLF COUNT: " + GridTest.wolfC, 900, 200);
                 }
