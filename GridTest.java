@@ -3,7 +3,6 @@
  * @author Ken Jiang
  */
 
-
 class GridTest {
     //constants
     public static final int WOLF_NUMBER = 3;

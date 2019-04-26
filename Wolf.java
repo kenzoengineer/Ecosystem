@@ -1,4 +1,4 @@
-public class Wolf extends Animal implements Comparable<Wolf>{
+public class Wolf extends Animal implements Comparable<Wolf> {
     private int searchR = 2;
     public Wolf(int h) {
         super(h);
@@ -148,7 +148,7 @@ public class Wolf extends Animal implements Comparable<Wolf>{
             if (a >= 1) {
                 if (map[a-1][b] instanceof Sheep) {
                     eat(map, a, b, a-1, b);
-                } else if (map[a-1][b] == null) {
+                } else if (map[a-1][b] == null || map[a-1][b] instanceof Grass) {
                     move(map, a, b, a-1, b);
                 } else if (map[a-1][b] instanceof Wolf) {
                     if (this.sameGender((Animal)map[a-1][b])) {
@@ -162,7 +162,7 @@ public class Wolf extends Animal implements Comparable<Wolf>{
             if (a < GridTest.SIZE-1) {
                 if (map[a+1][b] instanceof Sheep) {
                     eat(map, a, b, a+1, b);
-                } else if (map[a+1][b] == null) {
+                } else if (map[a+1][b] == null || map[a+1][b] instanceof Grass) {
                     move(map, a, b, a+1, b);
                 } else if (map[a+1][b] instanceof Wolf) {
                     if (this.sameGender((Animal)map[a+1][b])) {
@@ -176,7 +176,7 @@ public class Wolf extends Animal implements Comparable<Wolf>{
             if (b >= 1) {
                 if (map[a][b-1] instanceof Sheep) {
                     eat(map, a, b, a, b-1);
-                } else if (map[a][b-1] == null) {
+                } else if (map[a][b-1] == null || map[a][b-1] instanceof Grass) {
                     move(map, a, b, a, b-1);
                 } else if (map[a][b-1] instanceof Wolf) {
                     if (this.sameGender((Animal)map[a][b-1])) {
@@ -190,7 +190,7 @@ public class Wolf extends Animal implements Comparable<Wolf>{
             if (b < GridTest.SIZE-1) {
                 if (map[a][b+1] instanceof Sheep) {
                     eat(map, a, b, a, b+1);
-                } else if (map[a][b+1] == null) {
+                } else if (map[a][b+1] == null || map[a][b+1] instanceof Grass) {
                     move(map, a, b, a, b+1);
                 } else if (map[a][b+1] instanceof Wolf){
                     if (this.sameGender((Animal)map[a][b+1])) {

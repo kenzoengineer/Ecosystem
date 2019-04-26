@@ -53,19 +53,12 @@ class DisplayGrid {
             for(int i = 0; i<world[0].length;i=i+1) { 
                 for(int j = 0; j<world.length;j=j+1) { 
                     if (world[i][j] instanceof Sheep) {   //This block can be changed to match character-color pairs
-                        g.setColor(Color.WHITE);
                         g.drawImage(sheep,j*GridToScreenRatio,i*GridToScreenRatio,GridToScreenRatio,GridToScreenRatio,this);
                     } else if (world[i][j] instanceof Grass) {
                         g.setColor(Color.GREEN);
                         g.fillRect(j*GridToScreenRatio, i*GridToScreenRatio, GridToScreenRatio, GridToScreenRatio);
                     } else if (world[i][j] instanceof Wolf) {
-                        if (((Wolf)world[i][j]).getRadius() == 2) {
-                            g.setColor(Color.GRAY);
-                            g.drawImage(wolf,j*GridToScreenRatio,i*GridToScreenRatio,GridToScreenRatio,GridToScreenRatio,this);
-                        } else {
-                            g.setColor(new Color(46,46,46));
-                            g.fillRect(j*GridToScreenRatio, i*GridToScreenRatio, GridToScreenRatio, GridToScreenRatio);
-                        }
+                        g.drawImage(wolf,j*GridToScreenRatio,i*GridToScreenRatio,GridToScreenRatio,GridToScreenRatio,this);
                     } else {
                         g.setColor(darkGreen);
                         g.fillRect(j*GridToScreenRatio, i*GridToScreenRatio, GridToScreenRatio, GridToScreenRatio);
