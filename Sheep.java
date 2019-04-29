@@ -16,6 +16,7 @@ public class Sheep extends Animal {
         int health = ((Grass) map[gA][gB]).getNutrition();
         ((Animal)map[sA][sB]).subHealth(-1 * health);
         move(map,sA,sB,gA,gB);
+        GridTest.queue.add("Sheep ate grass");
         //System.out.println("Sheep ate grass");
     }
     
@@ -59,6 +60,7 @@ public class Sheep extends Animal {
             this.subHealth(10);
             ((Animal)map[mA][mB]).subHealth(10);
             this.setCooldown(10);
+            GridTest.queue.add("Sheeps bred");
             while (true) {
                 int r1 = (int) (Math.random() * GridTest.SIZE);
                 int r2 = (int) (Math.random() * GridTest.SIZE);

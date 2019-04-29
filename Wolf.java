@@ -23,6 +23,7 @@ public class Wolf extends Animal implements Comparable<Wolf> {
         ((Animal)map[wA][wB]).subHealth(-1 * health);
         move(map,wA,wB,sA,sB);
         //System.out.println("Wolf ate a sheep");
+        GridTest.queue.add("Wolf ate sheep");
     }
     
     /**
@@ -67,13 +68,14 @@ public class Wolf extends Animal implements Comparable<Wolf> {
             if (((Animal)map[dA][dB]).dead()) {
                 move(map, aA, aB, dA, dB);
                 //System.out.println("Defender lost and died");
+                GridTest.queue.add("Wolf killed defender");
             } else {
-                //System.out.println("Defender lost but survived");
+               GridTest.queue.add("Wolf hurt defender");
             }
         //attacker has less hp
         } else {
             this.subHealth(10);
-            //System.out.println("Attacker lost!!");
+            GridTest.queue.add("Wolf lost to defender");
         }
     }
     
@@ -102,6 +104,7 @@ public class Wolf extends Animal implements Comparable<Wolf> {
             this.subHealth(10);
             ((Animal)map[mA][mB]).subHealth(10);
             this.setCooldown(10);
+            GridTest.queue.add("Wolves bred");
             while (true) {
                 int r1 = (int) (Math.random() * GridTest.SIZE);
                 int r2 = (int) (Math.random() * GridTest.SIZE);

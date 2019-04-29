@@ -3,13 +3,16 @@
  * @author Ken Jiang
  */
 
+import java.util.LinkedList;
+import java.util.Queue;
 class GridTest {
     //constants
     public static final int WOLF_NUMBER = 3;
     public static final int SHEEP_NUMBER = 100;
     public static final int GRASS_NUMBER = 100;
     public static final int SIZE = 25;
-    public static final int DELAY = 1000;
+    public static final int DELAY = 100;
+    public static Queue<String> queue = new LinkedList<>();
     //tracks how many of each entity exists
     public static int wolfC = 0;
     public static int sheepC = 0;
@@ -190,7 +193,7 @@ class GridTest {
 
             //Small delay
             try {
-                Thread.sleep(200);
+                Thread.sleep(DELAY);
             }catch(Exception e) {
                 e.printStackTrace();
             };
@@ -200,6 +203,9 @@ class GridTest {
             int r = (int) (Math.random() * 2);
             if (r == 0) moreGrass(map,8);
             //Display the grid on a Panel
+            while (!GridTest.queue.isEmpty()) {
+                System.out.println(GridTest.queue.poll());
+            }
             grid.refresh();
         }
   }
