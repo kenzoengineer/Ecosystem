@@ -11,11 +11,12 @@ class GridTest {
     public static final int SHEEP_NUMBER = 100;
     public static final int GRASS_NUMBER = 100;
     public static final int SIZE = 25;
-    public static final int DELAY = 100;
+    public static final int DELAY = 300;
     public static Queue<String> queue = new LinkedList<>();
     //tracks how many of each entity exists
     public static int wolfC = 0;
     public static int sheepC = 0;
+    public static int turn = 0;
     
     /**
      * Spawns a set amount of each entity at random locations on the map
@@ -121,30 +122,6 @@ class GridTest {
             } else return;
         }
     }
-
-    /**
-     * Checks if one animal (sheep/wolf) no longer exists and the ecosystem is no longer stable
-     * @param map a 2d array of the world
-     * @return whether the ecosystem is still stable or not
-     */
-    public static boolean stable(Organism[][] map) {
-        int sC = 0;
-        int wC = 0;
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map.length; j++) {
-                if (map[i][j] instanceof Wolf) {
-                    wC++;
-                } else if (map[i][j] instanceof Sheep) {
-                    sC++;
-                }
-            }
-        }
-        if (sC > 0 && wC > 0) {
-            return true;
-        }
-          System.out.println(sC > wC ? "Sheep won" : "Wolf won");
-        return false;
-    }
     
     /**
      * Helper method to count how many of each entity still exists
@@ -170,7 +147,6 @@ class GridTest {
   
     public static void main(String[] args) { 
         Organism map[][] = new Organism[SIZE][SIZE];
-        int turn = 0;
         // Initialize Map
         setupGame(map);
         //Set up Grid Panel
@@ -178,15 +154,7 @@ class GridTest {
         System.out.println("Event log:");
             
         while(true) {
-            //Display the grid on a Panel
-            if(stable(map)) {
-                turn++;
-            } else {
-                System.out.println("Turn : " + turn);
-                resetGame(map);
-                setupGame(map);
-                turn = 0;
-            }
+            turn++;
             wolfC = count(map)[0];
             sheepC = count(map)[1];
             grid.refresh();
@@ -202,10 +170,6 @@ class GridTest {
             moveItemsOnGrid(map);
             int r = (int) (Math.random() * 2);
             if (r == 0) moreGrass(map,8);
-            //Display the grid on a Panel
-            while (!GridTest.queue.isEmpty()) {
-                System.out.println(GridTest.queue.poll());
-            }
             grid.refresh();
         }
   }
