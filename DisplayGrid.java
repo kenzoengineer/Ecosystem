@@ -89,9 +89,11 @@ class DisplayGrid {
             }
             
             g2d.setFont(new Font("Cambria", Font.PLAIN, 30));
+            g2d.drawString(GridTest.dayWeek + " " + GridTest.month, 10, 160 + (LOG_SIZE * 50));
             g2d.drawString("Wolf Count: " + GridTest.wolfC, GridTest.SIZE * GridToScreenRatio + 50, 100 + (LOG_SIZE * 50));
             g2d.drawString("Sheep Count: " + GridTest.sheepC, GridTest.SIZE * GridToScreenRatio + 50, 150 + (LOG_SIZE * 50));
-            
+            //g.setColor(new Color(0,0,0,127));
+            //g.fillRect(0, 0, GridTest.SIZE * GridToScreenRatio, GridTest.SIZE * GridToScreenRatio);
         }
     }//end of GridAreaPanel
 } //end of DisplayGrid

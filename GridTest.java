@@ -17,6 +17,8 @@ class GridTest {
     public static int wolfC = 0;
     public static int sheepC = 0;
     public static int turn = 0;
+    public static String dayWeek = "";
+    public static String month = "";
     
     /**
      * Spawns a set amount of each entity at random locations on the map
@@ -147,12 +149,14 @@ class GridTest {
   
     public static void main(String[] args) { 
         Organism map[][] = new Organism[SIZE][SIZE];
+        String[] weekNames = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+        String[] months = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
         // Initialize Map
         setupGame(map);
         //Set up Grid Panel
         DisplayGrid grid = new DisplayGrid(map);
         System.out.println("Event log:");
-            
+        int dayN = 0;
         while(true) {
             turn++;
             wolfC = count(map)[0];
@@ -171,6 +175,16 @@ class GridTest {
             int r = (int) (Math.random() * 2);
             if (r == 0) moreGrass(map,8);
             grid.refresh();
+            dayWeek = weekNames[dayN/5];
+            dayN++;
+            if (dayN == 35) {
+                dayN = 0;
+            }
+            int monthN = turn - 1;
+            while (monthN > (150 * 12)) {
+                monthN -= (150 * 12);
+            }
+            month = months[monthN/150] + " " + ((monthN/5)%30);
         }
   }
 }
