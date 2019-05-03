@@ -8,11 +8,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 class DisplayGrid { 
     private JFrame frame;
     private int maxX,maxY, GridToScreenRatio;
     private Object world[][] = new Object[GridTest.SIZE][GridTest.SIZE];
+    private int[] countArr = new int[500];
     Color darkGreen = new Color(31, 102, 28);
     Image sheep = Toolkit.getDefaultToolkit().getImage("sheep.png");
     Image wolf = Toolkit.getDefaultToolkit().getImage("wolf.png");
@@ -44,7 +46,10 @@ class DisplayGrid {
         frame.repaint();
     }
   
-  
+    public void push(int[] arr, int a) {
+        arr[a+1] = arr[a];
+        arr[a] = 0;
+    }
   
     class GridAreaPanel extends JPanel {
         public void paintComponent(Graphics g) {        
@@ -97,10 +102,19 @@ class DisplayGrid {
             }
             
             g2d.setFont(new Font("Cambria", Font.PLAIN, 30));
-            g2d.drawString(GridTest.turn + " " + GridTest.season, 10, 160 + (LOG_SIZE * 50));
+            g2d.drawString("Turn " + GridTest.turn + ", " + GridTest.season, 10, GridTest.SIZE * GridToScreenRatio + 30);
             g2d.drawString("Wolf Count: " + GridTest.wolfC, GridTest.SIZE * GridToScreenRatio + 50, 100 + (LOG_SIZE * 50));
             g2d.drawString("Sheep Count: " + GridTest.sheepC, GridTest.SIZE * GridToScreenRatio + 50, 150 + (LOG_SIZE * 50));
             
+            for (int i = 498; i >=0 ; i--) {
+                push(countArr,i);
+            }
+            countArr[0] = GridTest.sheepC;
+            for (int i = 0; i < 500; i++) {
+                if (countArr[i] != 0) {
+                    g.fillOval(1490 - i, 800 - (countArr[i] * 2), 5, 5);
+                }
+            }
             //g.setColor(new Color(0,0,0,127));
             //g.fillRect(0, 0, GridTest.SIZE * GridToScreenRatio, GridTest.SIZE * GridToScreenRatio);
         }

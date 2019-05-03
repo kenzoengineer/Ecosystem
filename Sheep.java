@@ -59,7 +59,7 @@ public class Sheep extends Animal {
             this.subHealth(10);
             ((Animal)map[mA][mB]).subHealth(10);
             this.setCooldown(10);
-            GridTest.queue.add("Turn " + GridTest.turn + ": Sheeps bred");
+            GridTest.queue.add("Turn " + GridTest.turn + ": Sheep bred");
             while (true) {
                 int r1 = (int) (Math.random() * GridTest.SIZE);
                 int r2 = (int) (Math.random() * GridTest.SIZE);
