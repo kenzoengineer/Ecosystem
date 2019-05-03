@@ -50,22 +50,30 @@ class DisplayGrid {
         public void paintComponent(Graphics g) {        
             //super.repaint();
             setDoubleBuffered(true); 
+            Color bg = darkGreen;
+            if (GridTest.season.substring(0,GridTest.season.indexOf(" ")).equals("Winter")) {
+                bg = new Color(140,179,242);
+            } else if (GridTest.season.substring(0,GridTest.season.indexOf(" ")).equals("Fall")) {
+                bg = new Color(173,132,83);
+            } else if (GridTest.season.substring(0,GridTest.season.indexOf(" ")).equals("Spring")) {
+                bg = new Color(100,145,63);
+            }
             for(int i = 0; i<world[0].length;i=i+1) { 
                 for(int j = 0; j<world.length;j=j+1) { 
                     if (world[i][j] instanceof Sheep) {   //This block can be changed to match character-color pairs
-                        g.setColor(darkGreen);
+                        g.setColor(bg);
                         g.fillRect(j*GridToScreenRatio, i*GridToScreenRatio, GridToScreenRatio, GridToScreenRatio);
                         g.drawImage(sheep,j*GridToScreenRatio,i*GridToScreenRatio,GridToScreenRatio,GridToScreenRatio,null);
                     } else if (world[i][j] instanceof Grass) {
-                        g.setColor(darkGreen);
+                        g.setColor(bg);
                         g.fillRect(j*GridToScreenRatio, i*GridToScreenRatio, GridToScreenRatio, GridToScreenRatio);
                         g.drawImage(grass,j*GridToScreenRatio,i*GridToScreenRatio,GridToScreenRatio,GridToScreenRatio,null);
                     } else if (world[i][j] instanceof Wolf) {
-                        g.setColor(darkGreen);
+                        g.setColor(bg);
                         g.fillRect(j*GridToScreenRatio, i*GridToScreenRatio, GridToScreenRatio, GridToScreenRatio);
                         g.drawImage(wolf,j*GridToScreenRatio,i*GridToScreenRatio,GridToScreenRatio,GridToScreenRatio,null);
                     } else {
-                        g.setColor(darkGreen);
+                        g.setColor(bg);
                         g.fillRect(j*GridToScreenRatio, i*GridToScreenRatio, GridToScreenRatio, GridToScreenRatio);
                     }
 
@@ -89,9 +97,10 @@ class DisplayGrid {
             }
             
             g2d.setFont(new Font("Cambria", Font.PLAIN, 30));
-            g2d.drawString(GridTest.dayWeek + " " + GridTest.month, 10, 160 + (LOG_SIZE * 50));
+            g2d.drawString(GridTest.turn + " " + GridTest.season, 10, 160 + (LOG_SIZE * 50));
             g2d.drawString("Wolf Count: " + GridTest.wolfC, GridTest.SIZE * GridToScreenRatio + 50, 100 + (LOG_SIZE * 50));
             g2d.drawString("Sheep Count: " + GridTest.sheepC, GridTest.SIZE * GridToScreenRatio + 50, 150 + (LOG_SIZE * 50));
+            
             //g.setColor(new Color(0,0,0,127));
             //g.fillRect(0, 0, GridTest.SIZE * GridToScreenRatio, GridTest.SIZE * GridToScreenRatio);
         }

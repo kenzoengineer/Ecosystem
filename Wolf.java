@@ -1,4 +1,6 @@
 public class Wolf extends Animal implements Comparable<Wolf> {
+    //there is a 1 / ERROR chance that the wolf will actively search for the sheep
+    final int ERROR = 4;
     private int searchR = 2;
     public Wolf(int h) {
         super(h);
@@ -139,12 +141,13 @@ public class Wolf extends Animal implements Comparable<Wolf> {
         
         //finds closest prey in the radius
         findClose(map, a, b, searchR);
+        
         //if none is found, randomly move
-        if (this.getXY()[0] == -1) {
-            rand = (int) (Math.random() * 4);
+        if (this.getXY()[0] != -1 && (((int) Math.random() * ERROR) == 0)) {
+            rand = pathFind(a,b,getXY()[0], getXY()[1]);
         //else move towards the prey
         } else {
-            rand = pathFind(a,b,getXY()[0], getXY()[1]);
+            rand = (int) (Math.random() * 4);
         }
         
         if (rand == 0) {
@@ -160,8 +163,11 @@ public class Wolf extends Animal implements Comparable<Wolf> {
                         breed(map, a-1, b);
                     }
                 }
+            } else {
+                rand = 1;
             }
-        } else if (rand == 1) {
+        }
+        if (rand == 1) {
             if (a < GridTest.SIZE-1) {
                 if (map[a+1][b] instanceof Sheep) {
                     eat(map, a, b, a+1, b);
@@ -174,8 +180,11 @@ public class Wolf extends Animal implements Comparable<Wolf> {
                         breed(map, a+1, b);
                     }
                 }
+            } else {
+                rand = 0;
             }
-        } else if (rand == 2) {
+        }
+        if (rand == 2) {
             if (b >= 1) {
                 if (map[a][b-1] instanceof Sheep) {
                     eat(map, a, b, a, b-1);
@@ -188,8 +197,11 @@ public class Wolf extends Animal implements Comparable<Wolf> {
                         breed(map, a, b-1);
                     }
                 }
+            } else {
+                rand = 3;
             }
-        } else if (rand == 3) {
+        }
+        if (rand == 3) {
             if (b < GridTest.SIZE-1) {
                 if (map[a][b+1] instanceof Sheep) {
                     eat(map, a, b, a, b+1);
@@ -202,6 +214,8 @@ public class Wolf extends Animal implements Comparable<Wolf> {
                         breed(map, a, b+1);
                     }
                 }
+            } else {
+                rand = 2;
             }
         }
         this.subHealth(1);
