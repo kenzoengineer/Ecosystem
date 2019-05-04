@@ -118,6 +118,7 @@ class DisplayGrid {
             g2d.drawString("Sheep Count: " + GridTest.sheepC, GridTest.SIZE * GridToScreenRatio + 50, 150 + (LOG_SIZE * 50));
             
             //SHEEP COUNT GRAPH
+            g.drawRect(990, 675, 505, 150);
             //push all datapoints forward
             for (int i = 498; i >=0 ; i--) {
                 push(countArr,i);
@@ -129,7 +130,7 @@ class DisplayGrid {
                 //don't draw the point if it's value is 0
                 //at the beginning all values are initiated to 0, so this is to not draw those points
                 if (countArr[i] != 0) {
-                    g.fillOval(1490 - i, 800 - (countArr[i] * 2), 5, 5);
+                    g.fillOval(1490 - i, 820 - (countArr[i] * 2), 5, 5);
                 }
             }
         }
