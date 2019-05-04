@@ -8,6 +8,7 @@
  * Additional Features:
  * Gender            Animals have gender (M/F) which determine whether they can breed or fight
  * Pathfinding       Animals have pathfinding within a fixed radius to prey around them
+ * We breed too!     Wolves can also breed
  * Final stand       Wolves extend their search radius when low health
  * *Sniffs*          Wolves have a chance to not follow their prey as they lose their scent
  * Seasons           The simulation goes through seasons, affecting plant growth decreasing from spring to winter
@@ -16,15 +17,23 @@
  * Counts            Counters for how many of each organism exists
  * Graphs            Real time graphs which visually represent the amount of grass and sheep
  * Flexibility       Tested to work on screens from 11" to 23.5"
+ * 
+ * Recommended values: 
+ * Wolves   2
+ * Sheep    50
+ * Grass    60
+ * These values make the program last an average of ~800 turns (with outliers ommited).
+ * @see avg.jpg
  */
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Scanner;
 class GridTest {
     //constants
-    public static final int WOLF_NUMBER = 2;
-    public static final int SHEEP_NUMBER = 50;
-    public static final int GRASS_NUMBER = 60;
+    public static int wolfNumber = 2;
+    public static int sheepNumber = 50;
+    public static int grassNumber = 60;
     public static final int SIZE = 30;
     public static final int DELAY = 100;
     public static Queue<String> queue = new LinkedList<>();
@@ -42,7 +51,7 @@ class GridTest {
     public static void setupGame(Organism[][] map) {
         int i = 0;
         //loops until the number of wolves matches the constant
-        while (i < WOLF_NUMBER) {
+        while (i < wolfNumber) {
             int a = (int) (Math.random() * SIZE);
             int b = (int) (Math.random() * SIZE);
             if (map[a][b] == null) {
@@ -52,7 +61,7 @@ class GridTest {
         }
         i = 0;
         //loops until the number of sheep matches the constant
-        while (i < SHEEP_NUMBER) {
+        while (i < sheepNumber) {
             int a = (int) (Math.random() * SIZE);
             int b = (int) (Math.random() * SIZE);
             if (map[a][b] == null) {
@@ -62,24 +71,12 @@ class GridTest {
         }
         i = 0;
         //loops until the number of grass matches the constant
-        while (i < GRASS_NUMBER) {
+        while (i < grassNumber) {
             int a = (int) (Math.random() * SIZE);
             int b = (int) (Math.random() * SIZE);
             if (map[a][b] == null) {
                 map[a][b] = new Grass(50);
                 i++;
-            }
-        }
-    }
-
-    /**
-     * Resets the map by setting all tiles to null
-     * @param map a 2d array of the map
-     */
-    public static void resetGame(Organism[][] map) {
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                map[i][j] = null;
             }
         }
     }
@@ -186,12 +183,23 @@ class GridTest {
      * @return a boolean value whether it's stable or not
      */
     public static boolean stable(Organism[][] map) {
-        return !(wolfC == 0 || sheepC == 0);
+        if((wolfC == 0 || sheepC == 0)) {
+            queue.add("Turn " + turn + ": Game ended");
+            return false;
+        }
+        return true;
     }
   
-    public static void main(String[] args) throws Exception{ 
+    public static void main(String[] args) throws Exception{
+        Scanner sc = new Scanner(System.in);
         Organism map[][] = new Organism[SIZE][SIZE];
         String[] seasons = {"Spring","Summer","Fall","Winter"};
+        System.out.println("How many sheep?");
+        sheepNumber = sc.nextInt();
+        System.out.println("How many wolves?");
+        wolfNumber = sc.nextInt();
+        System.out.println("How much grass?");
+        grassNumber = sc.nextInt();
         // Initialize Map
         setupGame(map);
         //Set up Grid Panel
@@ -227,7 +235,7 @@ class GridTest {
             }
             //set the season string to the season at seasonNum
             season = seasons[seasonNum] + " " + (turn % 30 + 1);
-            //change how much grass spawns depending on the season
+            //change how much grass spawns depending on the season (9, 6, 3, 0)
             int abundance = 9 - (seasonNum * 3);
             //move animals
             moveItemsOnGrid(map);
