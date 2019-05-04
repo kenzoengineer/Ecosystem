@@ -117,13 +117,13 @@ class DisplayGrid {
             g2d.drawString("Turn " + GridTest.turn + ", " + GridTest.season, 10, GridTest.SIZE * GridToScreenRatio + 30);
             g.drawLine(GridTest.SIZE * GridToScreenRatio + 50, 15 + (LOG_SIZE * 25), GridTest.SIZE * GridToScreenRatio + 300, 15 + (LOG_SIZE * 25));
             g2d.setFont(new Font("Cambria", Font.PLAIN, 20));
-            g2d.drawString("Wolf Count: " + GridTest.wolfC, GridTest.SIZE * GridToScreenRatio + 50, 50 + (LOG_SIZE * 25));
-            g2d.drawString("Grass Count: " + GridTest.grassC, GridTest.SIZE * GridToScreenRatio + 50, 80 + (LOG_SIZE * 25));
-            g2d.drawString("Sheep Count: " + GridTest.sheepC, GridTest.SIZE * GridToScreenRatio + 50, 400 + (LOG_SIZE * 25));
+            g2d.drawString("Wolf Count: " + GridTest.wolfC, GridTest.SIZE * GridToScreenRatio + 50, 40 + (LOG_SIZE * 25));
+            g2d.drawString("Grass Count: " + GridTest.grassC, GridTest.SIZE * GridToScreenRatio + 50, 70 + (LOG_SIZE * 25));
+            g2d.drawString("Sheep Count: " + GridTest.sheepC, GridTest.SIZE * GridToScreenRatio + 50, 260 + (LOG_SIZE * 25));
             
             //GRASS COUNT GRAPH
             g.setColor(Color.BLACK);
-            g.drawRect(GridTest.SIZE * GridToScreenRatio + 50, 90 + (LOG_SIZE * 25), 485, 148);
+            g.drawRect(GridTest.SIZE * GridToScreenRatio + 50, 80 + (LOG_SIZE * 25), 485, 148);
             //push all datapoints forward
             for (int i = 478; i >=0 ; i--) {
                 push(grassGraph,i);
@@ -133,16 +133,16 @@ class DisplayGrid {
             //draw the points onto the screen
             g.setColor(Color.RED);
             for (int i = 0; i < 500; i++) {
-                //don't draw the point if the SHEEPGRAPH value is 0
+                //don't draw the point if the sheepGraph[i] value is 0
                 //this is because those points symbolize no data, as integer arrays are
                 //initialized at 0. We cannot use grassGraph[i] = 0 as sometimes there will be no grass.
-                //if (sheepGraph[i] != 0) {
-                    g.fillOval(GridTest.SIZE * GridToScreenRatio + 530 - i, 235 + (LOG_SIZE * 25) - (grassGraph[i]/2), 2, 5);
-                //}
+                if (sheepGraph[i] != 0) {
+                    g.fillOval(GridTest.SIZE * GridToScreenRatio + 530 - i, 223 + (LOG_SIZE * 25) - (grassGraph[i]/2), 2, 5);
+                }
             }
             //SHEEP COUNT GRAPH
             g.setColor(Color.BLACK);
-            g.drawRect(980, 675, 485, 148);
+            g.drawRect(GridTest.SIZE * GridToScreenRatio + 50, 270 + (LOG_SIZE * 25), 485, 148);
             //push all datapoints forward
             for (int i = 478; i >=0 ; i--) {
                 push(sheepGraph,i);
@@ -156,7 +156,7 @@ class DisplayGrid {
                 //at the beginning all values are initiated to 0, so this is to not draw those points
                 //also, when sheep go to 0, the program will end anyways
                 if (sheepGraph[i] != 0) {
-                    g.fillOval(1460 - i, 820 - (sheepGraph[i] * 2), 2, 5);
+                    g.fillOval(GridTest.SIZE * GridToScreenRatio + 530 - i, 413 + (LOG_SIZE * 25) - (sheepGraph[i]*2), 2, 5);
                 }
             }
             
