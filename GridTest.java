@@ -10,6 +10,7 @@
  * Pathfinding       Animals have pathfinding within a fixed radius to prey around them
  * We breed too!     Wolves can also breed
  * Final stand       Wolves extend their search radius when low health
+ * Heavy feet        Wolves trample grass and remove them from the map
  * *Sniffs*          Wolves have a chance to not follow their prey as they lose their scent
  * Seasons           The simulation goes through seasons, affecting plant growth decreasing from spring to winter
  * Visuals           Sheep, wolves and grass have pictures to represent them on the map. Seasons change the color of the background
