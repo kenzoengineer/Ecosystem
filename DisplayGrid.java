@@ -109,13 +109,15 @@ class DisplayGrid {
             }
             //display all items in the arraylist
             for (int i = 0; i < log.size(); i++) {
-                g2d.drawString(log.get(i), GridTest.SIZE * GridToScreenRatio + 50, 50 + (i * 25));
+                g2d.drawString(log.get(i), GridTest.SIZE * GridToScreenRatio + 50, 25 + (i * 25));
             }
             
             //display text for turns, season, wolf count and sheep count
             g2d.setFont(new Font("Cambria", Font.PLAIN, 30));
             g2d.drawString("Turn " + GridTest.turn + ", " + GridTest.season, 10, GridTest.SIZE * GridToScreenRatio + 30);
-            g2d.drawString("Wolf Count: " + GridTest.wolfC, GridTest.SIZE * GridToScreenRatio + 50, 100 + (LOG_SIZE * 25));
+            g.drawLine(GridTest.SIZE * GridToScreenRatio + 50, 15 + (LOG_SIZE * 25), GridTest.SIZE * GridToScreenRatio + 300, 15 + (LOG_SIZE * 25));
+            g2d.setFont(new Font("Cambria", Font.PLAIN, 20));
+            g2d.drawString("Wolf Count: " + GridTest.wolfC, GridTest.SIZE * GridToScreenRatio + 50, 50 + (LOG_SIZE * 25));
             g2d.drawString("Grass Count: " + GridTest.grassC, GridTest.SIZE * GridToScreenRatio + 50, 200 + (LOG_SIZE * 25));
             g2d.drawString("Sheep Count: " + GridTest.sheepC, GridTest.SIZE * GridToScreenRatio + 50, 400 + (LOG_SIZE * 25));
             
