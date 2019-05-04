@@ -138,7 +138,9 @@ public class Sheep extends Animal {
                 }
             }
         }
+        //subtract 1 hp from the animal
         this.subHealth(1);
+        //if the cooldown isn't already 0, decrement it
         if (this.getCooldown() > 0) {
             this.subCooldown(1);
         }

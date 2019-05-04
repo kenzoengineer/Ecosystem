@@ -16,6 +16,7 @@ class GridTest {
     //tracks how many of each entity exists
     public static int wolfC = 0;
     public static int sheepC = 0;
+    public static int grassC = 0;
     public static int turn = 0;
     public static String season = " ";
     
@@ -140,9 +141,10 @@ class GridTest {
      * @return an array of the amount of wolves and sheep
      */
     public static int[] count(Organism[][] map) {
-        int[] arr = new int[2];
+        int[] arr = new int[3];
         int w = 0;
         int s = 0;
+        int g = 0;
         //loop through entire array
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
@@ -152,10 +154,14 @@ class GridTest {
                 //increment sheep count
                 } else if (map[i][j] instanceof Sheep) {
                     s++;
+                } else if (map[i][j] instanceof Grass) {
+                    g++;
                 }
             }
         }
-        arr[0] = w; arr[1] = s;
+        arr[0] = w;
+        arr[1] = s; 
+        arr[2] = g;
         return arr;
     }
     
@@ -182,11 +188,12 @@ class GridTest {
         while(stable(map)) {
             //increment turn number
             turn++;
-            //check the number of wolves
+            //set the number of wolves
             wolfC = count(map)[0];
-            //check the number of sheep
+            //set the number of sheep
             sheepC = count(map)[1];
-
+            //set the number of grass
+            grassC = count(map)[2];
             //Small delay
             try {
                 Thread.sleep(DELAY);

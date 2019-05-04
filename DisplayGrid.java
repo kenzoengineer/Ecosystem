@@ -14,7 +14,8 @@ class DisplayGrid {
     private JFrame frame;
     private int maxX,maxY, GridToScreenRatio;
     private Object world[][] = new Object[GridTest.SIZE][GridTest.SIZE];
-    private int[] countArr = new int[500];
+    private int[] sheepGraph = new int[500];
+    private int[] grassGraph = new int[500];
     Color darkGreen = new Color(31, 102, 28);
     Image sheep = Toolkit.getDefaultToolkit().getImage("sheep.png");
     Image wolf = Toolkit.getDefaultToolkit().getImage("wolf.png");
@@ -96,7 +97,7 @@ class DisplayGrid {
             //enable antialiasing
             g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
             g2d.setColor(Color.BLACK);
-            g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+            g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
             
             //add all events in the queue to the arraylist
             for (int i = 0; i < LOG_SIZE && !GridTest.queue.isEmpty(); i++) {
@@ -108,31 +109,55 @@ class DisplayGrid {
             }
             //display all items in the arraylist
             for (int i = 0; i < log.size(); i++) {
-                g2d.drawString(log.get(i), GridTest.SIZE * GridToScreenRatio + 50, 50 + (i * 50));
+                g2d.drawString(log.get(i), GridTest.SIZE * GridToScreenRatio + 50, 50 + (i * 25));
             }
             
             //display text for turns, season, wolf count and sheep count
             g2d.setFont(new Font("Cambria", Font.PLAIN, 30));
             g2d.drawString("Turn " + GridTest.turn + ", " + GridTest.season, 10, GridTest.SIZE * GridToScreenRatio + 30);
-            g2d.drawString("Wolf Count: " + GridTest.wolfC, GridTest.SIZE * GridToScreenRatio + 50, 100 + (LOG_SIZE * 50));
-            g2d.drawString("Sheep Count: " + GridTest.sheepC, GridTest.SIZE * GridToScreenRatio + 50, 150 + (LOG_SIZE * 50));
+            g2d.drawString("Wolf Count: " + GridTest.wolfC, GridTest.SIZE * GridToScreenRatio + 50, 100 + (LOG_SIZE * 25));
+            g2d.drawString("Grass Count: " + GridTest.grassC, GridTest.SIZE * GridToScreenRatio + 50, 200 + (LOG_SIZE * 25));
+            g2d.drawString("Sheep Count: " + GridTest.sheepC, GridTest.SIZE * GridToScreenRatio + 50, 400 + (LOG_SIZE * 25));
             
-            //SHEEP COUNT GRAPH
-            g.drawRect(990, 675, 505, 150);
+            //GRASS COUNT GRAPH
+            g.setColor(Color.BLACK);
+            g.drawRect(980, 460, 485, 148);
             //push all datapoints forward
-            for (int i = 498; i >=0 ; i--) {
-                push(countArr,i);
+            for (int i = 478; i >=0 ; i--) {
+                push(grassGraph,i);
+            }
+            //set the latest datapoint to the current grass count
+            grassGraph[0] = GridTest.grassC;
+            //draw the points onto the screen
+            g.setColor(Color.RED);
+            for (int i = 0; i < 500; i++) {
+                //don't draw the point if the SHEEPGRAPH value is 0
+                //this is because those points symbolize no data, as integer arrays are
+                //initialized at 0. We cannot use grassGraph[i] = 0 as sometimes there will be no grass.
+                if (sheepGraph[i] != 0) {
+                    g.fillOval(1460 - i, 605 - (grassGraph[i]/2), 2, 5);
+                }
+            }
+            //SHEEP COUNT GRAPH
+            g.setColor(Color.BLACK);
+            g.drawRect(980, 675, 485, 148);
+            //push all datapoints forward
+            for (int i = 478; i >=0 ; i--) {
+                push(sheepGraph,i);
             }
             //set the latest datapoint to the current sheep count
-            countArr[0] = GridTest.sheepC;
+            sheepGraph[0] = GridTest.sheepC;
             //draw the points onto the screen
+            g.setColor(Color.RED);
             for (int i = 0; i < 500; i++) {
                 //don't draw the point if it's value is 0
                 //at the beginning all values are initiated to 0, so this is to not draw those points
-                if (countArr[i] != 0) {
-                    g.fillOval(1490 - i, 820 - (countArr[i] * 2), 5, 5);
+                //also, when sheep go to 0, the program will end anyways
+                if (sheepGraph[i] != 0) {
+                    g.fillOval(1460 - i, 820 - (sheepGraph[i] * 2), 2, 5);
                 }
             }
+            
         }
     }//end of GridAreaPanel
 } //end of DisplayGrid
