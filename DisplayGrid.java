@@ -41,11 +41,18 @@ class DisplayGrid {
         frame.setVisible(true);
     }
   
-  
+    /**
+    * Refresh the map
+    */
     public void refresh() { 
         frame.repaint();
     }
-  
+    
+    /**
+     * Helper method to an integer up an index
+     * @param arr the array containing the integers
+     * @param a the index of the integer
+     */
     public void push(int[] arr, int a) {
         arr[a+1] = arr[a];
         arr[a] = 0;
@@ -55,6 +62,7 @@ class DisplayGrid {
         public void paintComponent(Graphics g) {        
             //super.repaint();
             setDoubleBuffered(true); 
+            //sets the background color depending on the season
             Color bg = darkGreen;
             if (GridTest.season.substring(0,GridTest.season.indexOf(" ")).equals("Winter")) {
                 bg = new Color(140,179,242);
@@ -63,60 +71,67 @@ class DisplayGrid {
             } else if (GridTest.season.substring(0,GridTest.season.indexOf(" ")).equals("Spring")) {
                 bg = new Color(100,145,63);
             }
+            
+            //draw background
+            g.setColor(bg);
+            g.fillRect(0,0,GridTest.SIZE * GridToScreenRatio, GridTest.SIZE * GridToScreenRatio);
+            
             for(int i = 0; i<world[0].length;i=i+1) { 
                 for(int j = 0; j<world.length;j=j+1) { 
-                    if (world[i][j] instanceof Sheep) {   //This block can be changed to match character-color pairs
-                        g.setColor(bg);
-                        g.fillRect(j*GridToScreenRatio, i*GridToScreenRatio, GridToScreenRatio, GridToScreenRatio);
+                    //drawing images depending on the object type
+                    if (world[i][j] instanceof Sheep) {
                         g.drawImage(sheep,j*GridToScreenRatio,i*GridToScreenRatio,GridToScreenRatio,GridToScreenRatio,null);
                     } else if (world[i][j] instanceof Grass) {
-                        g.setColor(bg);
-                        g.fillRect(j*GridToScreenRatio, i*GridToScreenRatio, GridToScreenRatio, GridToScreenRatio);
                         g.drawImage(grass,j*GridToScreenRatio,i*GridToScreenRatio,GridToScreenRatio,GridToScreenRatio,null);
                     } else if (world[i][j] instanceof Wolf) {
-                        g.setColor(bg);
-                        g.fillRect(j*GridToScreenRatio, i*GridToScreenRatio, GridToScreenRatio, GridToScreenRatio);
                         g.drawImage(wolf,j*GridToScreenRatio,i*GridToScreenRatio,GridToScreenRatio,GridToScreenRatio,null);
-                    } else {
-                        g.setColor(bg);
-                        g.fillRect(j*GridToScreenRatio, i*GridToScreenRatio, GridToScreenRatio, GridToScreenRatio);
                     }
-
                 }
             }
             
-            
+            //how many events to display in the event log
             final int LOG_SIZE = 10;
+            //create a graphics2d object to antialias text and make it look better
             Graphics2D g2d = (Graphics2D) g;
+            //enable antialiasing
             g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
             g2d.setColor(Color.BLACK);
             g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+            
+            //add all events in the queue to the arraylist
             for (int i = 0; i < LOG_SIZE && !GridTest.queue.isEmpty(); i++) {
                 log.add(GridTest.queue.poll());
             }
+            //remove all extraneous items
             while (log.size() > LOG_SIZE) {
                 log.remove(0);
             }
+            //display all items in the arraylist
             for (int i = 0; i < log.size(); i++) {
                 g2d.drawString(log.get(i), GridTest.SIZE * GridToScreenRatio + 50, 50 + (i * 50));
             }
             
+            //display text for turns, season, wolf count and sheep count
             g2d.setFont(new Font("Cambria", Font.PLAIN, 30));
             g2d.drawString("Turn " + GridTest.turn + ", " + GridTest.season, 10, GridTest.SIZE * GridToScreenRatio + 30);
             g2d.drawString("Wolf Count: " + GridTest.wolfC, GridTest.SIZE * GridToScreenRatio + 50, 100 + (LOG_SIZE * 50));
             g2d.drawString("Sheep Count: " + GridTest.sheepC, GridTest.SIZE * GridToScreenRatio + 50, 150 + (LOG_SIZE * 50));
             
+            //SHEEP COUNT GRAPH
+            //push all datapoints forward
             for (int i = 498; i >=0 ; i--) {
                 push(countArr,i);
             }
+            //set the latest datapoint to the current sheep count
             countArr[0] = GridTest.sheepC;
+            //draw the points onto the screen
             for (int i = 0; i < 500; i++) {
+                //don't draw the point if it's value is 0
+                //at the beginning all values are initiated to 0, so this is to not draw those points
                 if (countArr[i] != 0) {
                     g.fillOval(1490 - i, 800 - (countArr[i] * 2), 5, 5);
                 }
             }
-            //g.setColor(new Color(0,0,0,127));
-            //g.fillRect(0, 0, GridTest.SIZE * GridToScreenRatio, GridTest.SIZE * GridToScreenRatio);
         }
     }//end of GridAreaPanel
 } //end of DisplayGrid

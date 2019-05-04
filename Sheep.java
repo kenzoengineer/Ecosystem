@@ -96,10 +96,13 @@ public class Sheep extends Animal {
         
         if (rand == 0) {
             if (a >= 1) {
+                //if it's grass, eat it
                 if (map[a-1][b] instanceof Grass) {
                     eat(map, a, b, a-1, b);
+                //if it's empty, move to it
                 } else if (map[a-1][b] == null) {
                     move(map, a, b, a-1, b);
+                //if it's a sheep, breed with it (if it's not the same gender)
                 } else if (map[a-1][b] instanceof Sheep && !this.sameGender((Animal)map[a-1][b])) {
                     breed(map, a-1, b);
                 }

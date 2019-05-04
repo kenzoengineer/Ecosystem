@@ -152,10 +152,13 @@ public class Wolf extends Animal implements Comparable<Wolf> {
         
         if (rand == 0) {
             if (a >= 1) {
+                //if it's a sheep, eat it
                 if (map[a-1][b] instanceof Sheep) {
                     eat(map, a, b, a-1, b);
+                //if it's grass, trample it, or if it's empty, move to it
                 } else if (map[a-1][b] == null || map[a-1][b] instanceof Grass) {
                     move(map, a, b, a-1, b);
+                //if it's a wolf, attack or breed depending on gender
                 } else if (map[a-1][b] instanceof Wolf) {
                     if (this.sameGender((Animal)map[a-1][b])) {
                         attack(map, a, b, a-1, b);
@@ -164,6 +167,7 @@ public class Wolf extends Animal implements Comparable<Wolf> {
                     }
                 }
             } else {
+                //move somewhere else if that move would be illegal
                 rand = 1;
             }
         }

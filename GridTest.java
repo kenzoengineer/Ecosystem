@@ -104,6 +104,7 @@ class GridTest {
                 }
             }
         }
+        //loop through entire array and allow all animals to move again
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 if (map[i][j] instanceof Animal) {
@@ -142,10 +143,13 @@ class GridTest {
         int[] arr = new int[2];
         int w = 0;
         int s = 0;
+        //loop through entire array
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
+                //increment wolf count
                 if (map[i][j] instanceof Wolf) {
                     w++;
+                //increment sheep count
                 } else if (map[i][j] instanceof Sheep) {
                     s++;
                 }

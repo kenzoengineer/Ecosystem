@@ -12,9 +12,10 @@ abstract public class Animal extends Organism{
     public Animal(int h) {
         this.health = h;
         this.tired = false;
+        this.cooldown = 20;
+        //randomly assign gender
         int r = (int) (Math.random() * 2);
         isMale = (r == 0);
-        this.cooldown = 20;
     }
     
     /**
