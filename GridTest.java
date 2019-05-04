@@ -1,6 +1,21 @@
-/* [GridTest.java]
- * A program to demonstrate usage of DisplayGrid.java.
+/**
+ * GridTest.java
+ * Simulates an ecosystem environment with grass, sheep and wolves.
  * @author Ken Jiang
+ * @version 1.2
+ * @since April 16th, 2019
+ * 
+ * Additional Features:
+ * Gender            Animals have gender (M/F) which determine whether they can breed or fight
+ * Pathfinding       Animals have pathfinding within a fixed radius to prey around them
+ * Final stand       Wolves extend their search radius when low health
+ * *Sniffs*          Wolves have a chance to not follow their prey as they lose their scent
+ * Seasons           The simulation goes through seasons, affecting plant growth decreasing from spring to winter
+ * Visuals           Sheep, wolves and grass have pictures to represent them on the map. Seasons change the color of the background
+ * Event log         A rolling event log which shows breeding, attacking and eating
+ * Counts            Counters for how many of each organism exists
+ * Graphs            Real time graphs which visually represent the amount of grass and sheep
+ * Flexibility       Tested to work on screens from 11" to 23.5"
  */
 
 import java.util.LinkedList;
@@ -11,7 +26,7 @@ class GridTest {
     public static final int SHEEP_NUMBER = 50;
     public static final int GRASS_NUMBER = 60;
     public static final int SIZE = 30;
-    public static final int DELAY = 10;
+    public static final int DELAY = 100;
     public static Queue<String> queue = new LinkedList<>();
     //tracks how many of each entity exists
     public static int wolfC = 0;
